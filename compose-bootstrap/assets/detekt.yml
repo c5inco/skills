@@ -1,0 +1,39 @@
+# Detekt configuration for Compose projects
+# Builds upon the default config (buildUponDefaultConfig = true in build.gradle.kts)
+# Only overrides where defaults are too strict for Compose development
+
+style:
+  MaxLineLength:
+    maxLineLength: 120
+    excludeCommentStatements: true
+  WildcardImport:
+    active: true
+  ThrowsCount:
+    active: false
+  ReturnCount:
+    max: 8
+
+complexity:
+  LongParameterList:
+    active: false
+  ComplexCondition:
+    allowedConditions: 5
+  CyclomaticComplexMethod:
+    allowedComplexity: 15
+    ignoreAnnotated:
+      - "Composable"
+  LongMethod:
+    active: true
+    allowedLines: 100
+  TooManyFunctions:
+    allowedFunctionsPerFile: 15
+    allowedFunctionsPerClass: 15
+    allowedFunctionsPerObject: 15
+    allowedFunctionsPerInterface: 15
+  NestedBlockDepth:
+    allowedDepth: 5
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - "Composable"
