@@ -71,5 +71,5 @@ IntUiTheme(theme = themeDefinition, styling = ComponentStyling.default()) {
 - [Typography interface and `JewelTheme.typography`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/Typography.kt)
 - [IntUiTypography default mappings](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/IntUiTypography.kt)
 - [Default/editor text style creation APIs](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/theme/TextStyles.kt)
-- [Sample heading usage in layout](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/views/ComponentsView.kt#L95-L97)
+- [Sample heading usage in layout](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/views/ComponentsView.kt)
 

@@ -9,7 +9,7 @@ Icon(key = MyIcons.Settings, contentDescription = "Settings")
 Image(iconKey = MyIcons.Banner, contentDescription = null)
 ```
 
-Avoid deprecated raw path loading (`painterResource`) when implementing new code.
+Prefer key-based APIs over raw `painterResource` for Jewel UIs: keys integrate with Jewel's icon patching (dark mode, new UI variants, density). Raw `painterResource` bypasses that pipeline.
 
 ## Choose the right key type
 
@@ -67,8 +67,8 @@ Use hints only when needed; default runtime patching already handles common dark
 
 ## Canonical Source Links
 
-- [README icons section](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/README.md#L274-L389)
-- [IconKey implementations (`PathIconKey`, `IntelliJIconKey`)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/icon/IconKey.kt#L5-L73)
-- [Icon composable overloads](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/component/Icon.kt#L55-L160)
-- [Image composable for `IconKey`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/component/Image.kt#L41-L104)
-- [Sample icon holder (`ShowcaseIcons`)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/ShowcaseIcons.kt#L6-L47)
+- [README icons section](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/README.md)
+- [IconKey implementations (`PathIconKey`, `IntelliJIconKey`)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/icon/IconKey.kt)
+- [Icon composable overloads](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/component/Icon.kt)
+- [Image composable for `IconKey`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/component/Image.kt)
+- [Sample icon holder (`ShowcaseIcons`)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/ShowcaseIcons.kt)

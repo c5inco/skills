@@ -51,6 +51,8 @@ Use this in plugin UI so Compose follows current IntelliJ look-and-feel and scal
 
 ## Decorated window styling (standalone)
 
+Customizing a title bar requires configuring `titleBarStyle` through `ComponentStyling.default().decoratedWindow(...)` — the `IntUiTheme(isDark = ...)` quick-start wrapper does not give you this hook. When the user asks for a custom title bar, reach for this form.
+
 ```kotlin
 IntUiTheme(
     theme = themeDefinition,
@@ -64,7 +66,7 @@ IntUiTheme(
 }
 ```
 
-Use only in standalone/JBR scenarios that need custom title bars.
+Use only in standalone/JBR scenarios that need custom title bars. For dark theme, swap `TitleBarStyle.light()` for `TitleBarStyle.dark()`.
 
 ## Customization guidance
 
@@ -75,6 +77,6 @@ Use only in standalone/JBR scenarios that need custom title bars.
 
 ## Canonical Source Links
 
-- [IntUiTheme overloads and locals](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/theme/IntUiTheme.kt#L862-L902)
-- [Standalone sample theme composition](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/Main.kt#L41-L70)
-- [Swing bridge theme entrypoint](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ide-laf-bridge/src/main/kotlin/org/jetbrains/jewel/bridge/theme/SwingBridgeTheme.kt#L39-L61)
+- [IntUiTheme overloads and locals](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/theme/IntUiTheme.kt)
+- [Standalone sample theme composition](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/Main.kt)
+- [Swing bridge theme entrypoint](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ide-laf-bridge/src/main/kotlin/org/jetbrains/jewel/bridge/theme/SwingBridgeTheme.kt)
