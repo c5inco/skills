@@ -26,6 +26,71 @@ Split this file by quarter if the corpus grows past ~20 prompts or ~20 runs.
 
 ## Runs
 
+## run 11 — Tier 4 sub-batch C (feedback/composition) — 2026-04-21
+
+Four evals probing compound-behavior rules across feedback and organization: Banner severity + placement (18), Progress Bar determinate vs indeterminate + background execution (19), Tabs auto-hide + never-disable (21), Validation error presentation (25).
+
+### Pre-edit A/B (current = baseline = post-sub-batch-B on current; baseline frozen at d5b33c4)
+
+| Prompt | current | baseline | Notes |
+|---|---|---|---|
+| 18 Banner severity | 4/4 | 4/4 | Both reached for `InlineBanner` + Warning severity correctly; the catalog + general UX knowledge covered this |
+| 19 Progress Bar | **2/4** | **1/4** | Both distinguished determinate vs indeterminate; both missed background-execution, Cancel-not-Pause, and dismiss-on-completion rules |
+| 21 Tabs at 12 | 1/4 | 1/4 | Both steered to navigation-rail instead of tabs (legitimate UX alternative), but missed the auto-hide-at-8+, never-disable, and 3-word-label rules |
+| 25 Validation error | 4/4 | 4/4 | Both produced inline error below field, semantic `outlines.error` / `text.error` tokens, actionable message — THEMING-COLORS.md covered this |
+
+Pre-edit totals — **current 11/16, baseline 10/16**.
+
+### Skill edits applied
+
+Four new sections added to `COMPONENT-SELECTION.md` between Numeric Input and Group Header Threshold:
+
+1. **"Feedback and Progress"** — Banner severity table (Information / Warning / Error) with placement and length rules; Progress Bar decision table (determinate / indeterminate / compact spinner); directive rules for background execution, Cancel-vs-Stop labeling, no-Pause, dismiss-on-completion.
+2. **"Tabs"** — auto-hide at 8+, never-disable rule (unavailability explained in content), 3-word label limit, positioning above content; 12+ destinations route to the navigation-rail pattern.
+3. **"Validation Errors"** — inline positioning below field, semantic outline/text/border coherence via `JewelTheme.globalColors.outlines.error` / `.focusedError` / `text.error`, short/imperative/specific message, `InfoText` as the primitive, validation-on-blur not on keystroke.
+4. **"Search Affordances"** — *also-now* Search Field content from the plan (no eval yet): `TextField` + leading search icon for persistent search bars; `SpeedSearchArea` + `SpeedSearchScope.SpeedSearchable*` for in-list filter-as-you-type; "don't label the field 'Search'" rule.
+
+### Post-edit current — sub-batch C
+
+| Prompt | Pass | Δ | Notes |
+|---|---|---|---|
+| 18 Banner severity | (held) 4/4 | 0 | Pre-edit already clean; no change expected |
+| 19 Progress Bar | **4/4** | **+2** | Now surfaces all four rules: determinate when known, run in background, Cancel-not-Pause, dismiss on completion |
+| 21 Tabs at 12 | **4/4** | **+3** | Now explicitly cites the 8+ auto-hide rule, never-disable rule, and 3-word label limit; routes 12+ destinations to nav rail with correct justification |
+| 25 Validation error | (held) 4/4 | 0 | Pre-edit already clean; skill additions reinforce but don't change output |
+
+Post-edit total — **current 16/16**. Baseline unchanged at 10/16.
+
+### Regression spot-check
+
+| Prompt | Pass | Status |
+|---|---|---|
+| 14 checkbox negation | **4/4** | held — no regression from new sections |
+
+### Observations
+
+- **Eval 21 was the biggest attribution win.** Both versions pre-edit legitimately sidestepped the tab rules by recommending nav-rail (sensible output, but not citing the IntelliJ rules). The new Tabs section gave the current skill vocabulary for the specific rules (auto-hide at 8+, never-disable, 3-word limit) — the response now combines the nav-rail recommendation *with* the tab-specific constraints, which is the right teaching shape.
+- **Eval 19 recovered the pause/background rules.** The "prefer background over pause" rule is specific IntelliJ convention that neither version knew pre-edit. Directive content closed it reliably.
+- **Evals 18 and 25 stayed at 4/4 pre-edit on both versions.** The Jewel catalog + THEMING-COLORS.md already encoded enough for the model to answer correctly. Encoding the rules in COMPONENT-SELECTION.md anyway is worth doing — it gives future-me a cite-able reference and protects against agent variance.
+- **Search Field content added as a companion.** No eval for it yet (deferred per the plan), but the skill now has the `TextField`-vs-`SpeedSearchArea` decision encoded so the next prompt touching search has ground to stand on.
+
+### Tier 4 aggregate across all three sub-batches
+
+| Sub-batch | current total | baseline total | Δ |
+|---|---|---|---|
+| A (label/writing) | 12/12 | 7/12 | +5 |
+| B (component selection) | 16/16 | 12/16 | +4 |
+| C (feedback/composition) | 16/16 | 10/16 | +6 |
+| **Tier 4 total (11 evals)** | **44/44** | **29/44** | **+15** |
+
+Current skill now scores **100%** on the 11 Tier 4 prompts; baseline scores **65.9%** on the same corpus.
+
+### Follow-ups
+
+- Toggle Button — still deferred until Jewel ships an `OnOffButton` analog.
+- Search Field eval — skill content is in place; eval can be added as eval 26 in a future tier.
+- Consider rolling baseline forward after a cycle or two of regression-free A/Bs against this expanded rule set. The rolled baseline at `d5b33c4` stays valid for now.
+
 ## run 10 — Tier 4 sub-batch B (component selection) — 2026-04-21
 
 Four evals probing "pick the right primitive": Tooltip on icon-only buttons (17), TextArea vs TextField for commit messages (20), GroupHeader threshold for small groups (23), Slider vs TextField for bounded numeric (24).

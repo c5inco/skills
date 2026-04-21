@@ -78,4 +78,8 @@ Record every run in `RESULTS.md`, newest on top.
 | [20](20-textarea-vs-textfield.md) | howto | easy | Commit message input: `TextArea` vs `TextField` |
 | [22](22-button-now-antipattern.md) | howto | easy | Button label "Apply Now" vs "Apply" |
 | [23](23-groupheader-threshold.md) | howto | medium | 2 checkboxes — use `GroupHeader`? (threshold rule) |
+| [18](18-banner-severity-placement.md) | howto | medium | Workspace out-of-sync: which feedback surface + severity? |
+| [19](19-progress-bar-determinate.md) | howto | medium | Compile progress: determinate vs indeterminate; background; cancel vs pause |
+| [21](21-tabs-at-12.md) | howto | medium | 12 tabs: auto-hide threshold, never-disable rule |
 | [24](24-slider-vs-textfield-numeric.md) | howto | medium | Volume 0–100: `Slider` vs `TextField` numeric |
+| [25](25-validation-error-presentation.md) | howto | medium | Inline form validation error presentation |

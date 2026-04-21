@@ -105,6 +105,92 @@ Source: [Text Area](https://plugins.jetbrains.com/docs/intellij/text-area.html).
 - Use `steps = n-1` for integer snapping across `n` whole-number stops; omit for smooth continuous.
 - Slider works in `Float`; convert to `Int` only at display / persistence boundaries.
 
+## Feedback and Progress
+
+### Banner severity
+
+Use a Jewel `InlineBanner` (attached to the affected component) or `DefaultBanner` (app-level) when attention is needed but the state is not immediate. Pick severity by impact:
+
+| Severity | When |
+|---|---|
+| Information | Optional context that doesn't change the user's path (e.g. "3 files indexed") |
+| Warning | Workflow-impacting state the user should address (e.g. "Workspace out of sync — sync before editing") |
+| Error | Required to unblock (e.g. "Can't save: credentials expired") |
+
+Rules:
+
+- Place the banner at the **top of the affected component**, not over it.
+- **≤2 sentences** of body text; **≤2 actions** in the banner's action area.
+- Prefer `Link` over `Button` for banner actions.
+- Do not use a banner when the state can't be tied to a specific UI component — reach for a platform notification / balloon instead.
+
+### Progress indicators
+
+| Shape | Use |
+|---|---|
+| Duration is known (file count, byte total, step index) | `HorizontalProgressBar` (determinate) |
+| Duration is unknown | `IndeterminateHorizontalProgressBar` or `CircularProgressIndicator` (compact) |
+
+Rules:
+
+- **Run in the background** rather than a modal dialog — the user should keep working during long operations.
+- Pair the bar with a short status label (`"Compiling project…"`). The bar alone doesn't convey what's happening.
+- **Cancel vs Stop** — use `"Cancel"` for safely interruptible work; use `"Stop"` only when the interruption is irreversible.
+- **Do not offer a Pause action.** The IntelliJ guideline explicitly prefers background execution over pause.
+- **Dismiss the indicator on completion** — don't leave it visible after the work finishes.
+
+Sources: [Banner](https://plugins.jetbrains.com/docs/intellij/banner.html), [Progress Bar](https://plugins.jetbrains.com/docs/intellij/progress-bar.html).
+
+## Tabs
+
+Use Jewel `Tabs` / `TabStrip` for peer content views (document tabs, section tabs within a single surface). For **navigation between many app sections**, reach for a navigation rail pattern instead (Pattern 1 in LAYOUT-PATTERNS.md).
+
+Rules:
+
+- **Auto-hide at 8+ tabs** into a dropdown / "more" affordance — a horizontal strip of 8+ tabs loses legibility and keyboard affordance.
+- **Never disable a tab.** If a tab's content is unavailable, render the explanation inside the tab content, not by disabling the tab.
+- **Label length: max 3 words.** Short, sentence-style capitalization, no trailing punctuation.
+- Position tabs **above** their content, aligned to the container borders.
+- For 12+ destinations that feel tab-like but are really navigation, use the nav-rail-plus-content pattern (Pattern 1).
+
+Source: [Tabs](https://plugins.jetbrains.com/docs/intellij/tabs.html).
+
+## Validation Errors
+
+Present per-field validation errors **inline**, directly below the offending field. Not in a dialog, not in a tooltip, not in a banner, not in a toast / notification.
+
+| Concern | Use |
+|---|---|
+| Field outline (focused or not) | `Modifier`/styling that maps to `JewelTheme.globalColors.outlines.error` and `.focusedError` |
+| Error message text | `InfoText` (or a plain `Text` using `JewelTheme.globalColors.text.error` + `JewelTheme.typography.small`) |
+| Message wording | Short, imperative, specific — `"Enter a valid email address"`, not `"Invalid"` or `"Error"` |
+
+Rules:
+
+- Keep outline + text + border **coherent** — all three should communicate the same error state via the semantic `outlines.error` / `text.error` tokens. Do not hardcode hex values in the component.
+- Validate on blur or on submit, not on every keystroke.
+- Clear the error as soon as the user starts correcting the input.
+- Reserve `InlineBanner` for **surface-level** status (e.g. "Save failed: network error"), not single-field validation. A form that fails at submit time can combine: per-field inline errors plus a top-of-form banner.
+
+Sources: [Input Field](https://plugins.jetbrains.com/docs/intellij/input-field.html), Jewel [THEMING-COLORS.md](THEMING-COLORS.md).
+
+## Search Affordances
+
+IntelliJ has a Search Field guideline, but Jewel does not ship a dedicated `SearchField` composable. Two shapes cover the space:
+
+| Interaction | Use |
+|---|---|
+| Persistent search bar that filters a list / view (global or pane-level) | `TextField` with a leading `Icon(key = AllIconsKeys.Actions.Search, …)`; standard `TextField` state API |
+| In-list filter-as-you-type, keyboard-first navigation | `SpeedSearchArea` wrapping the list + one of `SpeedSearchScope.SpeedSearchableLazyColumn` / `SpeedSearchableTree` / `SpeedSearchableComboBox` |
+
+Rules:
+
+- Do not label the field `"Search"` — the magnifying-glass icon is self-explanatory. Use the placeholder for scope context instead (`"Filter users"`, `"Search in project"`).
+- Never show an empty combo box in place of a search field. If there are no options yet, fall back to a plain `TextField`.
+- For large lists where the user already knows the value, consider a `TextField` with completion rather than a combo box.
+
+Sources: [Search Field](https://plugins.jetbrains.com/docs/intellij/search-field.html), [Combo Box](https://plugins.jetbrains.com/docs/intellij/combo-box.html).
+
 ## Group Header Threshold
 
 `GroupHeader` is valuable for **larger** groups of controls. For **≤3 controls** use vertical insets / spacing instead — a header adds visual weight without payoff at small group sizes.
