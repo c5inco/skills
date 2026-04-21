@@ -68,3 +68,6 @@ Record every run in `RESULTS.md`, newest on top.
 | [08](08-custom-title-bar.md) | howto | medium | Custom title bar in standalone app (`DecoratedWindow`) |
 | [09](09-override-error-color.md) | howto | hard | Override global error color in the theme |
 | [10](10-allicons-standalone.md) | explain | easy | `AllIconsKeys` in a standalone app |
+| [11](11-subscription-tier-form.md) | howto | medium | Form with mutually-exclusive options (radio vs buttons) |
+| [12](12-confirm-delete-dialog.md) | howto | easy | Confirm-delete dialog buttons (primary vs secondary) |
+| [13](13-settings-toggles.md) | howto | medium | Settings page with ~10 preference toggles |

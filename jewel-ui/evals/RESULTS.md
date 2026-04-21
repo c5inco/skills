@@ -26,6 +26,43 @@ Split this file by quarter if the corpus grows past ~20 prompts or ~20 runs.
 
 ## Runs
 
+## run 7 — Tier 3 compositional taste (evals 11–13) — 2026-04-21
+
+Tests whether the skill picks the *right* component for a UX intent, not just any technically-correct one. Added `COMPONENT-SELECTION.md` (decision-tree reference grounded in the JetBrains IntelliJ UI Guidelines) and a short "Pick the Right Component" section in SKILL.md that cross-links to it. Three new prompts exercise three common traps.
+
+### current — evals 11/12/13
+
+| Prompt | Pass | Notes |
+|---|---|---|
+| 11 subscription tier form | **6/6** | `RadioButtonRow` for 3 tiers, single-enum state, `GroupHeader("Subscription tier:")` with colon, `DefaultButton` + `OutlinedButton` footer. Explicitly cited the guideline rule ("never two primary buttons side by side") |
+| 12 confirm-delete dialog | 5/5 | `DefaultButton("Delete")` + `OutlinedButton("Cancel")`. Flagged the "Do not show again" exception to the no-negation rule — extra credit |
+| 13 settings toggles | 5/5 | `CheckboxRow` column, `GroupHeader("Display:")` / `GroupHeader("Files:")` with colons, explicit "avoid negation — write 'Show line numbers' not 'Hide line numbers'" |
+
+Total: **16/16**.
+
+### baseline — evals 11/12/13
+
+| Prompt | Pass | Notes |
+|---|---|---|
+| 11 subscription tier form | 5/6 | Picked `RadioButtonRow` correctly, single-enum state, but `GroupHeader("Subscription tier")` is missing the `:` — the Jewel/IntelliJ label rule isn't in baseline's corpus |
+| 12 confirm-delete dialog | 5/5 | Correct primary/secondary assignment in the main code sample. Did suggest an "if you want to emphasize the destructive nature, swap so Cancel is `DefaultButton`" alternative — borderline against the IntelliJ rule, but the primary answer is correct |
+| 13 settings toggles | 5/5 | `CheckboxRow` column, `GroupHeader` sections (without colon), imperative labels. Structurally matches current — the colon rule doesn't surface in this prompt's criteria |
+
+Total: **15/16**.
+
+### Observations
+
+- **Net delta: +1, on eval 11's `GroupHeader` colon rule.** That's the specific Jewel/IntelliJ label convention that isn't broadly-known Compose knowledge — it's the kind of detail only a guidelines-grounded reference can reliably surface.
+- **Component picks were strong on both versions.** Both current and baseline reached for `RadioButtonRow`, `DefaultButton`+`OutlinedButton`, and `CheckboxRow` unprompted. The model's general UX knowledge covers the headline "pick the right control" decisions; the skill's value is in the *details* (labels, grouping, state shape).
+- **Quality gain is larger than the score gain.** Current's eval 11 response explicitly cited why — "never two primary buttons side by side", "the one place Jewel's 'no trailing punctuation' rule intentionally inverts", guidance on what to do if tiers grow past 4. Baseline gave a correct answer without that vocabulary. The pass-criteria count understates the teaching-value delta.
+- **Eval 12 baseline had a borderline suggestion.** It recommended swapping so Cancel becomes the `DefaultButton` "to emphasize the destructive nature" — that's the opposite of the IntelliJ rule. The primary code sample was correct so the criteria still pass, but the alternative suggestion is a real confusion that current avoided by citing the rule directly.
+
+### Follow-ups
+
+- **Add more label-rule prompts to probe the gap further.** Something like *"Write the label for a checkbox that disables email notifications"* would cleanly hit the no-negation rule (baseline might write "Don't send me emails"; current should write "Email notifications" and let "off" mean off, or switch to radio).
+- **Consider also pulling Button and Group Header guideline pages** — we cited them in COMPONENT-SELECTION.md but didn't read them. They'd tighten evals 12 and 11 respectively.
+- **`CheckboxRow` label coloning isn't surfacing in eval 13.** Current passed but didn't explicitly cite the rule for CheckboxRow labels. Could add a small eval that directly tests label rules across radio + checkbox + combo box on a single prompt.
+
 ## run 6 — eval 08 after Decorated Window snippet — 2026-04-21
 
 Closed the run-5 shared gap by adding a Decorated Window Quick Snippet to SKILL.md and strengthening THEMING.md's "Decorated window styling" section with explicit *"customization happens through `TitleBarStyle`, not through `IntUiTheme(isDark = ...)` alone"* language. Three current-skill samples against prompt 08 only (baseline unchanged).

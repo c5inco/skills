@@ -97,6 +97,19 @@ Use [THEMING.md](THEMING.md) for concrete patterns.
 Use [THEMING-COLORS.md](THEMING-COLORS.md) for color-palette and semantic-color guidance.
 Use [TYPOGRAPHY.md](TYPOGRAPHY.md) for text-style guidance and when-to-use rules.
 
+## Pick the Right Component
+
+Before writing component code, check [COMPONENT-SELECTION.md](COMPONENT-SELECTION.md) for the when-to-use rule. Jewel implements the JetBrains IntelliJ Platform UI Guidelines — those guidelines constrain which control fits a given interaction, not just which APIs exist.
+
+Four most common decisions:
+
+1. Mutually exclusive pick from 2–4 options → `RadioButtonRow` under a `GroupHeader` (label ends with `:`). **Do not** use three `DefaultButton`s.
+2. Multi-select of independent booleans → group of `CheckboxRow`. Use `ThreeStateCheckbox` for a "select all" parent.
+3. Pick from 5+ options, long labels, or less-frequent setting → `ListComboBox` / `ComboBox`.
+4. Primary action in a form or dialog → `DefaultButton`. Secondary / cancel → `OutlinedButton`. Never two `DefaultButton`s side by side.
+
+Use [COMPONENT-SELECTION.md](COMPONENT-SELECTION.md) for the full decision tables and label-writing rules.
+
 ## Build UI With Jewel Components
 
 Use Jewel components from `org.jetbrains.jewel.ui.component` for IntelliJ-styled UI.
