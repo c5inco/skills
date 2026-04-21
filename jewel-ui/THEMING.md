@@ -51,6 +51,8 @@ Use this in plugin UI so Compose follows current IntelliJ look-and-feel and scal
 
 ## Decorated window styling (standalone)
 
+Customizing a title bar requires configuring `titleBarStyle` through `ComponentStyling.default().decoratedWindow(...)` — the `IntUiTheme(isDark = ...)` quick-start wrapper does not give you this hook. When the user asks for a custom title bar, reach for this form.
+
 ```kotlin
 IntUiTheme(
     theme = themeDefinition,
@@ -64,7 +66,7 @@ IntUiTheme(
 }
 ```
 
-Use only in standalone/JBR scenarios that need custom title bars.
+Use only in standalone/JBR scenarios that need custom title bars. For dark theme, swap `TitleBarStyle.light()` for `TitleBarStyle.dark()`.
 
 ## Customization guidance
 

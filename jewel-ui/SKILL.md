@@ -35,6 +35,24 @@ object MyIcons {
 Icon(key = MyIcons.Settings, contentDescription = "Settings")
 ```
 
+Decorated window (standalone, custom title bar):
+
+```kotlin
+IntUiTheme(
+    theme = themeDefinition,
+    styling = ComponentStyling.default().decoratedWindow(
+        titleBarStyle = TitleBarStyle.light(),
+    ),
+) {
+    DecoratedWindow(onCloseRequest = ::exitApplication) {
+        TitleBar { /* title bar content */ }
+        App()
+    }
+}
+```
+
+Customization of the title bar (colors, metrics, fullscreen-control handling) happens through `TitleBarStyle` passed to `ComponentStyling.default().decoratedWindow(...)` — not through `IntUiTheme(isDark = ...)` alone.
+
 ## Scope Boundary
 
 This skill covers Jewel's theme wrappers, components, layout, icons, and typography — the Compose side of the UI. It does **not** cover Compose-in-Swing embedding mechanics. If the user's question is primarily about:

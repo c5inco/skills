@@ -65,3 +65,6 @@ Record every run in `RESULTS.md`, newest on top.
 | [05](05-debug-font-rendering.md) | debug | medium | Standalone app fonts look wrong |
 | [06](06-compose-toolwindow-routing.md) | howto | medium | Compose view in an IntelliJ tool window |
 | [07](07-disable-button.md) | howto | easy | Disable a Jewel `Button` |
+| [08](08-custom-title-bar.md) | howto | medium | Custom title bar in standalone app (`DecoratedWindow`) |
+| [09](09-override-error-color.md) | howto | hard | Override global error color in the theme |
+| [10](10-allicons-standalone.md) | explain | easy | `AllIconsKeys` in a standalone app |

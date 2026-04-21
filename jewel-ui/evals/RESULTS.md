@@ -26,6 +26,80 @@ Split this file by quarter if the corpus grows past ~20 prompts or ~20 runs.
 
 ## Runs
 
+## run 6 — eval 08 after Decorated Window snippet — 2026-04-21
+
+Closed the run-5 shared gap by adding a Decorated Window Quick Snippet to SKILL.md and strengthening THEMING.md's "Decorated window styling" section with explicit *"customization happens through `TitleBarStyle`, not through `IntUiTheme(isDark = ...)` alone"* language. Three current-skill samples against prompt 08 only (baseline unchanged).
+
+### current-v2 — eval 08 × 3 samples
+
+| # | Pass | `titleBarStyle` via `ComponentStyling.default().decoratedWindow(...)`? |
+|---|---|---|
+| sample 1 | **5/5** | yes — light/dark swap wired |
+| sample 2 | **5/5** | yes — clean form |
+| sample 3 | **5/5** | yes — light/dark swap wired |
+
+**n=3, mean 5.0/5, range 5–5.**
+
+### Comparison
+
+| Cohort | n | Mean |
+|---|---|---|
+| baseline | 1 | 4/5 |
+| current (pre-snippet, run 5) | 1 | 4/5 |
+| **current-v2** | **3** | **5.0/5** |
+
+### Conclusions
+
+- **Gap closed.** The Quick Snippet + directive THEMING.md language flipped all 3 samples to include `TitleBarStyle` configuration through `ComponentStyling.default().decoratedWindow(...)`. Same pattern as eval 06's win: the fix was *directive* wording ("customization happens through X, not Y alone"), not just adding information.
+- **Meta-leak continues to appear occasionally.** Sample 3 included a "References" block listing local file paths despite the harness instruction. Not worth a skill change — if it becomes a pattern, tighten the harness prompt.
+
+## run 5 — Tier 2 expansion (evals 08–10) — 2026-04-21
+
+Coverage expansion into areas the Tier 1 corpus didn't exercise: `DecoratedWindow` custom title bar (08), global color overrides (09), and `AllIconsKeys` availability in standalone (10).
+
+### current — evals 08/09/10
+
+| Prompt | Pass | Notes |
+|---|---|---|
+| 08 custom title bar | 4/5 | Uses `DecoratedWindow` + `TitleBar`, correct dep, `IntUiTheme`. Misses the `ComponentStyling.default().decoratedWindow(titleBarStyle = ...)` configuration — wraps with `IntUiTheme(isDark = false)` instead of the advanced form from THEMING.md |
+| 09 error color override | 5/5 | Exemplary — factory usage, both `TextColors` and `OutlineColors` (with `focusedError`), correct theme-definition wiring, also flagged the `SwingBridgeTheme` non-applicability |
+| 10 AllIconsKeys in standalone | 4/4 | "Yes with conditions"; names the dependency and repository requirement |
+
+Total: **13/14**.
+
+### baseline — evals 08/09/10
+
+| Prompt | Pass | Notes |
+|---|---|---|
+| 08 custom title bar | 4/5 | Same shape as current — misses `TitleBarStyle` configuration |
+| 09 error color override | 5/5 | Same shape as current |
+| 10 AllIconsKeys in standalone | 4/4 | Same shape as current |
+
+Total: **13/14**.
+
+### Observations
+
+- **No delta on Tier 2.** The edits in this session didn't touch the THEMING-COLORS / ICONS content tested here, so parity is expected.
+- **Shared gap on eval 08** — both versions skip the `ComponentStyling.default().decoratedWindow(titleBarStyle = ...)` configuration. This is real (THEMING.md documents the pattern) and worth closing. A short SKILL.md Quick Snippet for decorated-window, or a stronger "when customizing, use this form" note in THEMING.md, would likely surface it.
+- **Eval 09 is a high-water mark** — the response quality is exactly what the skill was designed to produce, including a defensive note that this doesn't apply in plugin context.
+- **Meta leak on eval 08 current** — response appended a "Relevant files I used for this answer" footer despite the explicit "no meta-commentary" instruction. Cosmetic, doesn't affect scoring; worth watching if it recurs across prompts.
+
+### Cross-run picture
+
+Single-sample-per-prompt tallies across the 10-prompt corpus (using run-4 mean for eval 06):
+
+| | current | baseline |
+|---|---|---|
+| Evals 01–10 | **~45/47** | **~41.5/47** |
+| % | 95.7% | 88.3% |
+
+Wins are concentrated on: 01 (TextField overload note), 03 (context-asking edit), 06 (hardened scope boundary). Tier 2 prompts landed on parity, confirming those areas were already well-covered pre-edit.
+
+### Follow-ups
+
+- **Close eval 08 gap** — consider adding a short decorated-window Quick Snippet to SKILL.md showing `ComponentStyling.default().decoratedWindow(titleBarStyle = ...)` so the customization path is visible without opening THEMING.md. Low-effort; likely closes the shared gap on both versions' behavior.
+- **Monitor meta-leak** — if "Relevant files I used" appears in more samples, consider tightening the harness prompt rather than the skill.
+
 ## run 4 — eval 06 after hardened scope boundary — 2026-04-21
 
 SKILL.md got a new **Scope Boundary** section near the top (directive: *"the correct response is to name `jewel-swing-interop` explicitly as the skill for that work and stop. Do not walk through `ToolWindowFactory` / `ComposePanel` / `plugin.xml` setup here, even if you know how"*). The soft "Related Skill" footer was removed. Three current-skill samples against prompt 06 only (baseline unchanged → not re-run).
