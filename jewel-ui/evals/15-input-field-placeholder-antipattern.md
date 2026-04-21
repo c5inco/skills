@@ -10,7 +10,7 @@ difficulty: medium
 
 ## Expected skill behavior
 
-1. Routes to COMPONENT-SELECTION.md "Writing Component Labels" rules or spots the placeholder-as-label anti-pattern.
+1. Routes to LABEL-RULES.md "Writing Component Labels" rules or spots the placeholder-as-label anti-pattern.
 2. Pushes back on placeholder-as-label — the user's framing treats the placeholder as carrying the field's purpose, which the IntelliJ guideline rejects.
 3. Pairs the field with an explicit visible label ("Users" or similar) and uses the placeholder only for example input.
 4. Uses Jewel `TextField`.

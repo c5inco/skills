@@ -205,20 +205,9 @@ Do not substitute per-row `Card` or per-row `Divider` for a header — those add
 
 Source: [Group Header](https://plugins.jetbrains.com/docs/intellij/group-header.html).
 
-## Writing Component Labels (Shared Rules)
+## Writing Component Labels
 
-1. **Sentence-style capitalization for most controls** (checkboxes, radios, links, group headers, tooltips, helper text). **Exception: `DefaultButton` / `OutlinedButton` / `DefaultSplitButton` / `OutlinedSplitButton` use title case** — `"Save Changes"`, not `"Save changes"`. The button case exception is an IntelliJ/Jewel convention; do not default to sentence case for buttons.
-2. No ending punctuation, **except** group labels (radio / checkbox group headers), which end with `:`.
-3. Imperative verb form.
-4. Avoid negation. Exception: `"Do not show again"`.
-5. Keep labels short; wrap to at most two lines.
-6. Checkbox label always on the right of the box; in tables, put it in the column header — don't repeat on every row.
-7. **Button labels never include `"Now"`** — `"Apply"`, not `"Apply Now"`; `"Save"`, not `"Save Now"`. A button is implicitly immediate; `"Now"` adds no information.
-8. **Placeholders are not labels.** Never rely on a `TextField` placeholder to carry the field's purpose — placeholders hide as the user types. Always pair a field with a visible label above or to the left; use the placeholder for example input only (`"name@example.com"`, not `"Email address"`).
-9. **Link text must be descriptive.** Do **not** use `"click here"`, `"learn more"`, `"navigate"`, or similar bare phrasings as `Link` text. The link itself implies action; the text should name the destination (`"Open documentation"`, `"View the migration guide"`).
-10. **External-link icon**: append a trailing arrow (↗) or external-link icon exclusively on `Link`s that leave the app. Internal navigation links within the same window get no icon.
-
-Source: [Radio Button](https://plugins.jetbrains.com/docs/intellij/radio-button.html), [Checkbox](https://plugins.jetbrains.com/docs/intellij/checkbox.html), [Button](https://plugins.jetbrains.com/docs/intellij/button.html), [Input Field](https://plugins.jetbrains.com/docs/intellij/input-field.html), [Link](https://plugins.jetbrains.com/docs/intellij/link.html).
+Label-writing conventions (capitalization, punctuation, negation, button-case exception, placeholder-vs-label, link text, external-link icons) live in a dedicated file so selection rules and label rules can evolve independently. See [LABEL-RULES.md](LABEL-RULES.md).
 
 ## Canonical Source Links
 
@@ -231,5 +220,12 @@ Authority: JetBrains IntelliJ Platform UI Guidelines. The Jewel API implements t
 - [Combo Box](https://plugins.jetbrains.com/docs/intellij/combo-box.html)
 - [Button](https://plugins.jetbrains.com/docs/intellij/button.html)
 - [Group Header](https://plugins.jetbrains.com/docs/intellij/group-header.html)
-- [Writing Short and Clear](https://plugins.jetbrains.com/docs/intellij/writing-short.html)
-- [Capitalization](https://plugins.jetbrains.com/docs/intellij/capitalization.html)
+- [Tooltip](https://plugins.jetbrains.com/docs/intellij/tooltip.html)
+- [Banner](https://plugins.jetbrains.com/docs/intellij/banner.html)
+- [Progress Bar](https://plugins.jetbrains.com/docs/intellij/progress-bar.html)
+- [Tabs](https://plugins.jetbrains.com/docs/intellij/tabs.html)
+- [Text Area](https://plugins.jetbrains.com/docs/intellij/text-area.html)
+- [Input Field](https://plugins.jetbrains.com/docs/intellij/input-field.html)
+- [Search Field](https://plugins.jetbrains.com/docs/intellij/search-field.html)
+
+For label-writing source links, see [LABEL-RULES.md](LABEL-RULES.md).

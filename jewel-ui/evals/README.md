@@ -42,6 +42,23 @@ The iteration loop for keeping the skill, evals, and baseline in sync:
 
 Record every run in `RESULTS.md`, newest on top.
 
+## Deferred / Open
+
+Parked items to revisit next cycle:
+
+### Baseline rollforward
+
+The in-tree baseline at `baseline/` currently reflects commit `d5b33c4` (post-Tier-3). After Tier 4 (runs 9–11) stabilized with no regressions on the protected corpus, the natural next step is rolling the baseline forward to the current HEAD. Process is documented above — overwrite `baseline/<files>` with the current `jewel-ui/<files>`, update `baseline/README.md` with the new SHA and a short diff summary, commit as a single named milestone.
+
+### Deferred evals
+
+- **Toggle Button** — IntelliJ scopes "Toggle Button" narrowly to search-result toggles (Swing `OnOffButton`); Jewel has no clean analog. Revisit when Jewel ships an equivalent composable.
+- **Search Field** — `COMPONENT-SELECTION.md`'s "Search Affordances" section already encodes the `TextField` + leading icon vs `SpeedSearchArea` differentiation. Add an eval (would be #26) to verify the rule surfaces; good candidate for the next tier.
+
+### Harness note
+
+The A/B harness (`Agent` subagents with explicit file lists) hardcodes which skill `.md` files go to each run. After the Tier 4 split, the current skill spans both `COMPONENT-SELECTION.md` **and** `LABEL-RULES.md` — future A/B runs must include **both** in the current-skill agent's file list, or label rules will be silently missing and any label-rule eval will regress. Baseline runs still read the self-contained `baseline/COMPONENT-SELECTION.md` at the rolled snapshot; update that when rolling baseline forward.
+
 ## Difficulty bands
 
 - **easy** — single-section lookup or direct API-name trigger.

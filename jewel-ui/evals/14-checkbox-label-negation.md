@@ -11,7 +11,7 @@ difficulty: medium
 ## Expected skill behavior
 
 1. Notices the word "disable" in the prompt plants a negation seed — the naive answer is a label like "Disable email notifications", which violates the IntelliJ no-negation rule.
-2. Routes to COMPONENT-SELECTION.md "Writing Component Labels" section.
+2. Routes to LABEL-RULES.md "Writing Component Labels" section.
 3. Recommends positive phrasing where the off state (unchecked) naturally means "notifications off" — e.g. `"Send email notifications"`, `"Enable email notifications"`, or just `"Email notifications"`.
 4. Uses `Checkbox` / `CheckboxRow`.
 5. May also mention the guideline escape hatch: if the off-state meaning is unclear from the label, switch to two `RadioButton`s with explicit labels for both states.

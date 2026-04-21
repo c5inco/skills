@@ -110,7 +110,7 @@ Most common decisions:
 5. Icon-only buttons → wrap in a `Tooltip` carrying the action name + keyboard shortcut. Every icon-only control needs one.
 6. Text input → `TextField` for one-line; `TextArea` for multi-line / newline-valid content (commit messages, descriptions, code).
 
-Use [COMPONENT-SELECTION.md](COMPONENT-SELECTION.md) for the full decision tables and label-writing rules.
+Use [COMPONENT-SELECTION.md](COMPONENT-SELECTION.md) for the full decision tables and [LABEL-RULES.md](LABEL-RULES.md) for label-writing conventions.
 
 ## Build UI With Jewel Components
 
