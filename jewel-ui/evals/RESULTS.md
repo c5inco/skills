@@ -26,6 +26,57 @@ Split this file by quarter if the corpus grows past ~20 prompts or ~20 runs.
 
 ## Runs
 
+## run 9 — Tier 4 sub-batch A (label/writing rules) — 2026-04-21
+
+Three evals probing `Writing Component Labels`: placeholder-as-label anti-pattern (15), "click here" link anti-pattern + external-link arrow (16), button "Now" anti-pattern + title-case exception (22).
+
+### Pre-edit A/B (current = baseline = d5b33c4)
+
+| Prompt | current | baseline | Notes |
+|---|---|---|---|
+| 15 placeholder anti-pattern | 1/4 | 1/4 | Both accepted the user's framing; shipped a `TextField` with `placeholder = "Search users"` without flagging that the placeholder shouldn't carry the field's identity |
+| 16 click-here anti-pattern | 3/4 | 3/4 | Both flagged "click here" correctly and proposed descriptive alternatives; both missed the **external-link arrow** rule for off-site links |
+| 22 Button "Now" | 4/4 | 3/4 | Both picked "Apply". Current cited title case for buttons correctly; baseline applied the generic "sentence-style capitalization" rule (wrong for buttons — the output "Apply" happened to be title-case-compatible). Agent variance, n=1, but exposed a real gap |
+
+Pre-edit totals — **current 8/12, baseline 7/12**.
+
+### Skill edit applied to `COMPONENT-SELECTION.md` → `Writing Component Labels`
+
+Extended from 6 rules to 10 with directive wording:
+
+1. Rule 1 split: sentence-style for most controls, **title case exception for buttons** (`DefaultButton`, `OutlinedButton`, split buttons).
+2. New rule 7: **"Button labels never include 'Now'"** — `Apply`, not `Apply Now`.
+3. New rule 8: **"Placeholders are not labels"** — always pair a `TextField` with a visible label; placeholder is example input only.
+4. New rule 9: **Link text must be descriptive** — no "click here" / "learn more" / "navigate".
+5. New rule 10: **External-link icon** — append a trailing `↗` on `Link`s leaving the app; internal nav gets no icon.
+
+Source citations expanded to include Button, Input Field, and Link guidelines.
+
+### Post-edit current — sub-batch A
+
+| Prompt | Pass | Δ | Notes |
+|---|---|---|---|
+| 15 placeholder anti-pattern | **4/4** | **+3** | Leads with "I want to flag something about the framing": placeholder ≠ label. Ships a visible `Text("Users")` label + example placeholder "name or email" |
+| 16 click-here anti-pattern | **4/4** | **+1** | Now explicitly includes `↗` / external-link icon: *"append a trailing external-link affordance because docs live outside the app"* |
+| 22 Button "Now" | 4/4 | 0 | Same clean answer; now directly cites the title-case exception as encoded |
+
+Post-edit total — **current 12/12**. Baseline stays at 7/12 (unchanged).
+
+### Regression spot-checks (current only)
+
+| Prompt | Pass | Status |
+|---|---|---|
+| 11 subscription tier form | **6/6** | held |
+| 14 checkbox negation | **4/4** | held |
+
+No regressions on the protected corpus. The title-case / sentence-case split didn't confuse the model on radio-button group labels (eval 11) or checkbox labels (eval 14).
+
+### Observations
+
+- **Sub-batch A validated the pattern again.** Both versions failed the anti-pattern detection pre-edit (rule wasn't in either corpus); one directive skill edit flipped all three evals on current to 4/4 while baseline remained unchanged. This is the cleanest A/B so far since the rolled baseline.
+- **The eval-22 baseline wobble was informative.** Baseline cited "sentence-style capitalization" — which was literally true per the skill's old rule 1, but wrong for buttons. The new split-rule encoding eliminates the ambiguity without rewording the broader label rules.
+- **Eval 15's framing inversion is the headline win.** The prompt *assumed* the placeholder should carry the label — a trap the skill now catches by directive ("Placeholders are not labels"). This is exactly the class of failure guideline-grounded content prevents.
+
 ## run 8 — label-writing eval against rolled baseline — 2026-04-21
 
 **Baseline rolled forward** to `d5b33c4` (post-Tier-3) before this run. All subsequent deltas are measured against the post-Tier-3 state, not the session-start state. The `df174ec` baseline remains accessible via `git show df174ec:jewel-ui/<file>`.

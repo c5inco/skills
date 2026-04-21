@@ -72,3 +72,6 @@ Record every run in `RESULTS.md`, newest on top.
 | [12](12-confirm-delete-dialog.md) | howto | easy | Confirm-delete dialog buttons (primary vs secondary) |
 | [13](13-settings-toggles.md) | howto | medium | Settings page with ~10 preference toggles |
 | [14](14-checkbox-label-negation.md) | howto | medium | Label a checkbox to "disable email notifications" (tests no-negation rule) |
+| [15](15-input-field-placeholder-antipattern.md) | howto | medium | Placeholder-as-label anti-pattern ("Search users" as placeholder) |
+| [16](16-link-click-here-antipattern.md) | howto | medium | "click here" link text anti-pattern |
+| [22](22-button-now-antipattern.md) | howto | easy | Button label "Apply Now" vs "Apply" |
