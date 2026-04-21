@@ -101,12 +101,14 @@ Use [TYPOGRAPHY.md](TYPOGRAPHY.md) for text-style guidance and when-to-use rules
 
 Before writing component code, check [COMPONENT-SELECTION.md](COMPONENT-SELECTION.md) for the when-to-use rule. Jewel implements the JetBrains IntelliJ Platform UI Guidelines — those guidelines constrain which control fits a given interaction, not just which APIs exist.
 
-Four most common decisions:
+Most common decisions:
 
 1. Mutually exclusive pick from 2–4 options → `RadioButtonRow` under a `GroupHeader` (label ends with `:`). **Do not** use three `DefaultButton`s.
 2. Multi-select of independent booleans → group of `CheckboxRow`. Use `ThreeStateCheckbox` for a "select all" parent.
 3. Pick from 5+ options, long labels, or less-frequent setting → `ListComboBox` / `ComboBox`.
 4. Primary action in a form or dialog → `DefaultButton`. Secondary / cancel → `OutlinedButton`. Never two `DefaultButton`s side by side.
+5. Icon-only buttons → wrap in a `Tooltip` carrying the action name + keyboard shortcut. Every icon-only control needs one.
+6. Text input → `TextField` for one-line; `TextArea` for multi-line / newline-valid content (commit messages, descriptions, code).
 
 Use [COMPONENT-SELECTION.md](COMPONENT-SELECTION.md) for the full decision tables and label-writing rules.
 

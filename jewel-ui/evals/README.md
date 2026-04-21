@@ -74,4 +74,8 @@ Record every run in `RESULTS.md`, newest on top.
 | [14](14-checkbox-label-negation.md) | howto | medium | Label a checkbox to "disable email notifications" (tests no-negation rule) |
 | [15](15-input-field-placeholder-antipattern.md) | howto | medium | Placeholder-as-label anti-pattern ("Search users" as placeholder) |
 | [16](16-link-click-here-antipattern.md) | howto | medium | "click here" link text anti-pattern |
+| [17](17-tooltip-on-icon-button.md) | howto | medium | Is an `IconButton` with just an icon enough? (tests Tooltip rule) |
+| [20](20-textarea-vs-textfield.md) | howto | easy | Commit message input: `TextArea` vs `TextField` |
 | [22](22-button-now-antipattern.md) | howto | easy | Button label "Apply Now" vs "Apply" |
+| [23](23-groupheader-threshold.md) | howto | medium | 2 checkboxes — use `GroupHeader`? (threshold rule) |
+| [24](24-slider-vs-textfield-numeric.md) | howto | medium | Volume 0–100: `Slider` vs `TextField` numeric |

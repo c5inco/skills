@@ -26,6 +26,56 @@ Split this file by quarter if the corpus grows past ~20 prompts or ~20 runs.
 
 ## Runs
 
+## run 10 — Tier 4 sub-batch B (component selection) — 2026-04-21
+
+Four evals probing "pick the right primitive": Tooltip on icon-only buttons (17), TextArea vs TextField for commit messages (20), GroupHeader threshold for small groups (23), Slider vs TextField for bounded numeric (24).
+
+### Pre-edit A/B (current = baseline = d5b33c4 + sub-batch A edits on current)
+
+| Prompt | current | baseline | Notes |
+|---|---|---|---|
+| 17 Tooltip on icon | 4/4 | 3/4 | Both said "yes, add a Tooltip"; baseline missed including the **keyboard shortcut** in the tooltip content (current mentioned it, likely agent variance) |
+| 20 TextArea vs TextField | 4/4 | 4/4 | Both picked `TextArea`, cited multi-line, included sensible sizing (96–120 dp min height) |
+| 23 GroupHeader threshold | **1/4** | **1/4** | Both said "Yes, GroupHeader is the right choice" — missed the ≤3-control threshold entirely. Rule isn't in either corpus |
+| 24 Slider numeric | 4/4 | 4/4 | Both picked `Slider`, set `valueRange = 0f..100f`, mentioned `TextField` pairing for precise entry |
+
+Pre-edit totals — **current 13/16, baseline 12/16**.
+
+### Skill edits applied
+
+Four new sections added to `COMPONENT-SELECTION.md` between Action Buttons and Writing Component Labels:
+
+1. **"Tooltips for Unlabeled Controls"** — directive: every icon-only / unlabeled control **must** be wrapped in a `Tooltip` carrying action name + keyboard shortcut; `Icon` also needs a `contentDescription`. Code snippet included.
+2. **"Text Input Sizing"** — decision table for `TextField` vs `TextArea` vs plain `Text`; `TextArea` sizing rules (3-line min, 270–600 px width, no auto-resize).
+3. **"Numeric Input"** — decision table for `Slider` vs `TextField` (numeric) vs `SegmentedControl` / `RadioButtonRow`; Slider usage conventions.
+4. **"Group Header Threshold"** — explicit ≤3-control rule: use spacing instead of a header; do not substitute per-row `Card` or `Divider`.
+
+`SKILL.md` "Pick the Right Component" shortlist extended from 4 to 6 decisions — added tooltip-on-icon and `TextField` vs `TextArea`.
+
+### Post-edit current — sub-batch B
+
+| Prompt | Pass | Δ | Notes |
+|---|---|---|---|
+| 17 Tooltip on icon | 4/4 | 0 | Now explicitly directive: *"This is a hard rule for Jewel — don't ship an IconButton without a tooltip, even when the icon feels obvious"*; includes shortcut consistently |
+| 20 TextArea vs TextField | (held) 4/4 | 0 | Unchanged; already passing |
+| 23 GroupHeader threshold | **4/4** | **+3** | Flipped to "No, a GroupHeader is overkill for only two checkboxes" with the 4+ threshold rule cited. Also calls out the per-row Card/Divider anti-pattern |
+| 24 Slider numeric | (held) 4/4 | 0 | Unchanged; already passing |
+
+Post-edit total — **current 16/16**. Baseline stays at 12/16 (unchanged).
+
+### Regression spot-check
+
+| Prompt | Pass | Status |
+|---|---|---|
+| 14 checkbox negation | **4/4** | held — no regression from new sections |
+
+### Observations
+
+- **Eval 23 was the headline win**: both versions started at 1/4 (the "yes GroupHeader" trap), and one directive edit flipped current to 4/4. The threshold rule is a specific IntelliJ convention that general UX knowledge misses — classic case for skill-encoded rules.
+- **Eval 17 stayed at 4/4** across pre- and post-edit, but the response quality tightened — pre-edit baseline omitted the keyboard shortcut, post-edit current now cites the rule directly ("don't ship an IconButton without a tooltip, even when the icon feels obvious"). Stability across variance is the real win.
+- **Evals 20 and 24 passed cleanly on both versions pre-edit** and required no content change to pass. Content was still added per the plan for regression protection and vocabulary — encoding even rules that currently pass prevents agent-variance regression.
+- **Current 16/16 on sub-batch B is the strongest clean sub-batch so far.** Baseline at 12/16 gives a +4 delta, mostly concentrated on eval 23. Sub-batch total is closer to the "real" signal of skill-content value than sub-batch A's label rules (which the model can plausibly learn from training).
+
 ## run 9 — Tier 4 sub-batch A (label/writing rules) — 2026-04-21
 
 Three evals probing `Writing Component Labels`: placeholder-as-label anti-pattern (15), "click here" link anti-pattern + external-link arrow (16), button "Now" anti-pattern + title-case exception (22).

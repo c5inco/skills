@@ -54,6 +54,71 @@ Source: [Combo Box](https://plugins.jetbrains.com/docs/intellij/combo-box.html).
 
 The primary action must be visually distinct. Destructive actions (delete, discard, remove) are still the primary button of the dialog — paired with an outlined "Cancel" — but should use clear, imperative labels (`"Delete"`, not `"Yes"`) so users don't confirm by reflex.
 
+## Tooltips for Unlabeled Controls
+
+Every icon-only or unlabeled interactive control **must** be wrapped in a Jewel `Tooltip` (or `TooltipArea`). This is not a judgement call about whether the icon is "obvious" — the rule is uniform.
+
+- Tooltip content includes **both** the action name **and** the keyboard shortcut (when one exists). Example: `"Refresh (Ctrl+R)"`.
+- The `Icon` inside still gets a meaningful `contentDescription` for assistive tech — the tooltip is for sighted users, the `contentDescription` is for screen readers; both should carry the action name.
+- Do not ship an `IconButton` / `IconActionButton` / `SelectableIconActionButton` / `ToggleableIconActionButton` without a `Tooltip`, even if the icon seems obvious in context.
+
+```kotlin
+Tooltip(tooltip = { Text("Refresh (Ctrl+R)") }) {
+    IconButton(onClick = ::refresh) {
+        Icon(key = MyIcons.Refresh, contentDescription = "Refresh")
+    }
+}
+```
+
+Source: [Tooltip](https://plugins.jetbrains.com/docs/intellij/tooltip.html).
+
+## Text Input Sizing
+
+| Shape | Use |
+|---|---|
+| Short, single-line input (few words) | `TextField` |
+| Unconstrained, multi-line text; newlines valid (commit messages, descriptions, code) | `TextArea` |
+| Read-only display text | Plain `Text` — not a disabled `TextField` |
+
+`TextArea` sizing conventions per the IntelliJ Text Area guideline:
+
+- Minimum height **~3 lines** (~55 px) so the multi-line affordance is visible at rest.
+- Width **~270 px minimum, ~600 px maximum** (~80-column target for code-adjacent content).
+- Size to an integral line count; avoid auto-resize.
+- No units glyph to the right of the area; if units are needed, put them in the label.
+
+Source: [Text Area](https://plugins.jetbrains.com/docs/intellij/text-area.html).
+
+## Numeric Input
+
+| Shape | Use |
+|---|---|
+| Continuous bounded value with direct-manipulation intent (volume, zoom, opacity) | `Slider` |
+| Precise numeric entry with validation | `TextField` (numeric) |
+| Both direct manipulation and precise entry | `Slider` + `TextField` bound to the same state |
+| Discrete preset (Low / Medium / High) | `SegmentedControl` or `RadioButtonRow` group — not `Slider` |
+
+`Slider` notes:
+
+- Always show the current value nearby (a trailing `Text(value.toInt().toString())` in a `Row` is the canonical shape). The slider alone does not communicate the exact number.
+- Set `valueRange` explicitly (e.g. `0f..100f`).
+- Use `steps = n-1` for integer snapping across `n` whole-number stops; omit for smooth continuous.
+- Slider works in `Float`; convert to `Int` only at display / persistence boundaries.
+
+## Group Header Threshold
+
+`GroupHeader` is valuable for **larger** groups of controls. For **≤3 controls** use vertical insets / spacing instead — a header adds visual weight without payoff at small group sizes.
+
+| Situation | Use |
+|---|---|
+| 4+ related controls forming a logical section | `GroupHeader` + the controls in a `Column` |
+| 2–3 related controls | Plain `Column` with `Arrangement.spacedBy(...)`; no header |
+| A single control in a "settings row" | Label inline with the control; no header |
+
+Do not substitute per-row `Card` or per-row `Divider` for a header — those add more visual weight than a `GroupHeader` would have.
+
+Source: [Group Header](https://plugins.jetbrains.com/docs/intellij/group-header.html).
+
 ## Writing Component Labels (Shared Rules)
 
 1. **Sentence-style capitalization for most controls** (checkboxes, radios, links, group headers, tooltips, helper text). **Exception: `DefaultButton` / `OutlinedButton` / `DefaultSplitButton` / `OutlinedSplitButton` use title case** — `"Save Changes"`, not `"Save changes"`. The button case exception is an IntelliJ/Jewel convention; do not default to sentence case for buttons.
