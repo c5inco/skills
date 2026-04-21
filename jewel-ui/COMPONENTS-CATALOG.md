@@ -24,10 +24,11 @@ This is a practical catalog of Jewel UI components for choosing the right primit
 2. `DefaultSplitButton` / `OutlinedSplitButton`: action + dropdown menu.
 3. `IconButton`, `IconActionButton`, `SelectableIconActionButton`, `ToggleableIconActionButton`: icon-first actions.
 4. `ActionButton`: action semantics wrapper.
+5. `Chip`: clickable chip action.
 
 ## Input And Selection
 
-1. `Checkbox`, `CheckboxRow`: boolean and tri-state style interactions.
+1. `Checkbox`, `CheckboxRow`, `ToggleableChip`: boolean and tri-state style interactions.
 2. `RadioButton`, `RadioButtonRow`, `RadioButtonChip`: exclusive selection.
 3. `TextField`, `TextArea`: text input variants.
 4. `Slider`: continuous numeric input.
@@ -67,6 +68,16 @@ Look in `component/search` for:
 3. `SpeedSearchScope.SpeedSearchableTree`
 
 Use when keyboard-first filtering and indexed search interactions are required. These are used inside a `SpeedSearchArea` scope.
+
+## Window Decoration
+
+1. `DecoratedWindow`: window with custom title bar support.
+2. `TitleBar`: custom title bar area.
+
+## Markdown Rendering
+
+1. `Markdown`: render markdown content.
+2. `LazyMarkdown`: render large markdown documents efficiently.
 
 ## Composition Example
 
