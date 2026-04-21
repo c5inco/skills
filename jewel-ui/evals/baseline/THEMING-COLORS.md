@@ -77,5 +77,5 @@ IntUiTheme(theme = theme, styling = ComponentStyling.default()) {
 - [GlobalColors, TextColors, BorderColors, OutlineColors](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/foundation/src/main/kotlin/org/jetbrains/jewel/foundation/GlobalColors.kt)
 - [Standalone light/dark global color defaults](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/theme/IntUiGlobalColors.kt)
 - [ThemeColorPalette and safe accessors](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/foundation/src/main/kotlin/org/jetbrains/jewel/foundation/theme/ThemeColorPalette.kt)
-- [JewelTheme color palette access](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/theme/JewelTheme.kt)
-- [Theme definition APIs (`lightThemeDefinition` / `darkThemeDefinition`)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/theme/IntUiTheme.kt)
+- [JewelTheme color palette access](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/theme/JewelTheme.kt#L87-L89)
+- [Theme definition APIs (`lightThemeDefinition` / `darkThemeDefinition`)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/theme/IntUiTheme.kt#L90-L222)

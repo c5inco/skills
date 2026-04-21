@@ -1,6 +1,6 @@
 ---
 name: jewel-ui
-description: Build or modify Compose Desktop UI using JetBrains Jewel components, theming, and icon loading. Use when requests mention Jewel, IntUiTheme, SwingBridgeTheme, JewelTheme, ComponentStyling, DecoratedWindow, DefaultButton, Tabs, AllIconsKeys, IconKey, PainterHint, or building IntelliJ-styled Compose UI in standalone apps or IntelliJ Platform plugins. For embedding Compose into Swing (ComposePanel, ToolWindow tabs, compositing flags), use jewel-swing-interop.
+description: Build or modify Compose Desktop UI using JetBrains Jewel components, theming, and icon loading. Use when requests mention Jewel, IntUiTheme, SwingBridgeTheme, AllIconsKeys, IconKey, PainterHint, or migration from Material/Compose widgets to Jewel in either standalone apps or IntelliJ Platform plugins.
 ---
 
 # Jewel UI
@@ -34,18 +34,6 @@ object MyIcons {
 
 Icon(key = MyIcons.Settings, contentDescription = "Settings")
 ```
-
-## Scope Boundary
-
-This skill covers Jewel's theme wrappers, components, layout, icons, and typography — the Compose side of the UI. It does **not** cover Compose-in-Swing embedding mechanics. If the user's question is primarily about:
-
-- Registering `ToolWindowFactory` / `ToolWindow` content
-- Instantiating `ComposePanel` or wiring `setContent`
-- `plugin.xml` tool window extensions
-- `enableNewSwingCompositing` and related compositing/AWT flags
-- `LocalComponent` and Swing ↔ Compose bidirectional integration
-
-…the correct response is to name `jewel-swing-interop` explicitly as the skill for that work and stop. Do **not** walk through `ToolWindowFactory` / `ComposePanel` / `plugin.xml` setup here, even if you know how. You may still state that content inside the `ComposePanel` should use `SwingBridgeTheme` (a theming concern, in scope), and defer the rest to `jewel-swing-interop`.
 
 ## Classify Runtime Context
 
@@ -81,11 +69,13 @@ Use [TYPOGRAPHY.md](TYPOGRAPHY.md) for text-style guidance and when-to-use rules
 
 ## Build UI With Jewel Components
 
-Use Jewel components from `org.jetbrains.jewel.ui.component` for IntelliJ-styled UI.
+Prefer Jewel components from `org.jetbrains.jewel.ui.component` over Material equivalents.
 
-1. Use Compose layout containers (`Row`, `Column`, `Box`) for composition.
-2. Use Jewel controls (`DefaultButton`, `OutlinedButton`, `TextField`, `Checkbox`, `Tabs`, etc.) for interactive primitives.
-3. Access colors and metrics through Jewel theme locals and component styling APIs instead of hardcoded values.
+When converting existing UI:
+
+1. Keep layout containers from Compose where appropriate.
+2. Replace controls with Jewel controls (`Button`, `TextField`, `Checkbox`, `Tabs`, etc.).
+3. Keep style access through Jewel theme locals and component styling APIs instead of hardcoded colors.
 
 Use local samples as source-of-truth examples:
 - [showcase sample directory](https://github.com/JetBrains/intellij-community/tree/master/platform/jewel/samples/showcase)
@@ -107,25 +97,23 @@ When using `AllIconsKeys` in standalone apps, ensure IntelliJ icons are on class
 
 Use `PainterHint` only when stateful/dynamic path or runtime icon patching behavior is required.
 
-When debugging icon-not-found errors, confirm runtime context (standalone vs plugin) before recommending a fix — `AllIconsKeys` availability and classpath layout differ between the two. Ask the user if context is not clear from the question.
-
 Use [ICONS.md](ICONS.md) for icon patterns and pitfalls.
 
 ## Source Permalinks
 
 When citing source in responses, prefer `master` links for always-latest behavior:
 
-- [README.md (standalone, bridge, icons)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/README.md)
-- [standalone sample main](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/Main.kt)
-- [Icon API (`Icon` composable)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/component/Icon.kt)
-- [Icon key types](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/icon/IconKey.kt)
-- [IntUiTheme implementation](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/theme/IntUiTheme.kt)
+- [README.md (standalone, bridge, icons)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/README.md#L193-L389)
+- [standalone sample main](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/Main.kt#L36-L84)
+- [Icon API (`Icon` composable)](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/component/Icon.kt#L55-L160)
+- [Icon key types](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/icon/IconKey.kt#L5-L73)
+- [IntUiTheme implementation](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/int-ui/int-ui-standalone/src/main/kotlin/org/jetbrains/jewel/intui/standalone/theme/IntUiTheme.kt#L862-L902)
 
 ## Version Discipline
 
 Treat this skill as Jewel-version scoped.
 
-1. When version matters, check build files (`libs.versions.toml`, `build.gradle.kts`) first; ask only if ambiguous.
+1. Ask for target Jewel version and target IntelliJ Platform version when not specified.
 2. Validate compatibility against [Jewel release notes](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/RELEASE%20NOTES.md).
 3. Prefer APIs available in the target version; avoid suggesting newer APIs without stating the minimum version.
 4. If publishing a version-pinned variant of this skill, replace `master` links with release-tag links.
@@ -139,5 +127,7 @@ Before finishing:
 3. Confirm dependencies match context.
 4. Confirm no unnecessary Material dependency is introduced in standalone flows.
 5. Confirm code compiles with current module and imports.
-6. For standalone apps, confirm JetBrains Runtime is used (Jewel requires JBR for full font/rendering behavior).
 
+## Related Skill
+
+For deep Compose-in-Swing integration flows (tool windows, ComposePanel wrappers, compositing flags, AWT bridging), use `jewel-swing-interop`.

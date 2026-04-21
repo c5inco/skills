@@ -83,5 +83,6 @@ This bridges IntelliJ Swing LaF values (colors, typography, metrics, and icon be
 
 ## Canonical Source Links
 
-- [README standalone setup](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/README.md)
-- [SwingBridgeTheme implementation](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ide-laf-bridge/src/main/kotlin/org/jetbrains/jewel/bridge/theme/SwingBridgeTheme.kt)
+- [README standalone setup](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/README.md#L42-L113)
+- [README standalone theme section](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/README.md#L193-L266)
+- [SwingBridgeTheme implementation](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ide-laf-bridge/src/main/kotlin/org/jetbrains/jewel/bridge/theme/SwingBridgeTheme.kt#L39-L61)

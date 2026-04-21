@@ -10,7 +10,7 @@ Use a top-level `Row` with:
 3. Main content column.
 
 Reference:
-- [ComponentsView.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/views/ComponentsView.kt)
+- [ComponentsView.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/views/ComponentsView.kt#L43-L99)
 
 ## Pattern 2: Stateful toolbar driving composable screens
 
@@ -20,8 +20,8 @@ Use a `ViewModel` with:
 3. Toolbar actions that set selected view.
 
 Reference:
-- [ComponentsViewModel.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/views/ComponentsViewModel.kt)
-- [MainViewModel.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/viewmodel/MainViewModel.kt)
+- [ComponentsViewModel.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/views/ComponentsViewModel.kt#L35-L117)
+- [MainViewModel.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/viewmodel/MainViewModel.kt#L29-L98)
 
 ## Pattern 3: Decorated window title bar composition
 
@@ -31,7 +31,7 @@ Use `DecoratedWindow` + `TitleBar` and compose:
 3. Right side: action buttons (GitHub link, theme switch) with `Tooltip`.
 
 Reference:
-- [TitleBarView.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/TitleBarView.kt)
+- [TitleBarView.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/TitleBarView.kt#L31-L133)
 
 ## Pattern 4: Settings/control blocks in vertical sections
 
@@ -41,7 +41,7 @@ Use a root `Column` with spaced sections:
 3. Feature toggles with `CheckboxRow`.
 
 Reference:
-- [WelcomeView.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/WelcomeView.kt)
+- [WelcomeView.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/WelcomeView.kt#L34-L109)
 
 ## Pattern 5: Side-by-side editor/preview panes
 
@@ -51,7 +51,7 @@ Use a `Row` with weighted panes:
 3. Right preview pane.
 
 Reference:
-- [MarkdownView.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/MarkdownView.kt)
+- [MarkdownView.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/MarkdownView.kt#L23-L38)
 
 ## Pattern 6: Composite controls row with Swing-backed actions
 
@@ -60,10 +60,8 @@ In standalone/desktop flows where file chooser is needed:
 2. Launch `JFileChooser` from button click.
 3. Feed result into Compose state.
 
-For deeper Compose↔Swing bridging (ComposePanel hosting, compositing flags, action-system bridges), use the `jewel-swing-interop` skill.
-
 Reference:
-- [MarkdownEditor.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/markdown/MarkdownEditor.kt)
+- [MarkdownEditor.kt](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/markdown/MarkdownEditor.kt#L37-L114)
 
 ## Practical guidance
 

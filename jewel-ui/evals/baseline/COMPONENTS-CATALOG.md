@@ -30,7 +30,7 @@ This is a practical catalog of Jewel UI components for choosing the right primit
 
 1. `Checkbox`, `CheckboxRow`, `ToggleableChip`: boolean and tri-state style interactions.
 2. `RadioButton`, `RadioButtonRow`, `RadioButtonChip`: exclusive selection.
-3. `TextField`, `TextArea`: text input variants. Both support a `TextFieldState`-based overload and a `value` / `onValueChange` overload — pick the one matching the Compose convention used in the surrounding code.
+3. `TextField`, `TextArea`: text input variants.
 4. `Slider`: continuous numeric input.
 5. `SegmentedControl`, `SegmentedControlButton`: segmented option pickers.
 6. `Tabs`, `TabStrip`: tabbed content.
@@ -110,4 +110,4 @@ Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.
 - [Search components directory](https://github.com/JetBrains/intellij-community/tree/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/component/search)
 - [Component showcase registry](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/views/ComponentsViewModel.kt)
 - [Showcase screen composition](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/showcase/src/main/kotlin/org/jetbrains/jewel/samples/showcase/views/ComponentsView.kt)
-- [Theme style accessors](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/theme/JewelTheme.kt)
+- [Theme style accessors](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/ui/src/main/kotlin/org/jetbrains/jewel/ui/theme/JewelTheme.kt#L97-L203)
