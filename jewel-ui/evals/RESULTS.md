@@ -26,6 +26,36 @@ Split this file by quarter if the corpus grows past ~20 prompts or ~20 runs.
 
 ## Runs
 
+## run 8 — label-writing eval against rolled baseline — 2026-04-21
+
+**Baseline rolled forward** to `d5b33c4` (post-Tier-3) before this run. All subsequent deltas are measured against the post-Tier-3 state, not the session-start state. The `df174ec` baseline remains accessible via `git show df174ec:jewel-ui/<file>`.
+
+First post-roll prompt probes the no-negation label rule head-on. Prompt 14: *"I need a checkbox that lets users disable email notifications. How should I label it?"* — the word "disable" plants the negation seed.
+
+### current — eval 14
+
+| Prompt | Pass | Notes |
+|---|---|---|
+| 14 checkbox label negation | 4/4 | Flipped framing to positive (`"Send email notifications"`), cited the avoid-negation rule + `"Do not show again"` exception, used `CheckboxRow`, correctly oriented checked/unchecked |
+
+### baseline (rolled, d5b33c4) — eval 14
+
+| Prompt | Pass | Notes |
+|---|---|---|
+| 14 checkbox label negation | 4/4 | Same positive framing (`"Send email notifications"`), same rule citation, same `CheckboxRow` choice, same orientation |
+
+### Observations
+
+- **Parity confirmed.** Both versions scored identically because they now contain the same skill content. This is the intended behavior of a rolled baseline: A/B deltas reset to zero at the moment of roll, and from now on any non-zero delta indicates a real change since the last milestone.
+- **The prompt design worked.** The word "disable" in the prompt didn't seduce either response into mirroring the framing; both flipped to positive phrasing and explicitly flagged why. The rule is load-bearing — the earlier A/B gap on eval 11's colon-on-`GroupHeader` was the same mechanism: encoded guidance that wouldn't surface from general model knowledge alone.
+- **The two responses are more similar than different.** Minor stylistic variance (baseline mentions `ThreeStateCheckbox` for a hypothetical multi-channel master toggle; current gives a sharper "unchecked = not disabled = enabled?" explanation of why negation hurts). Signal of agent variance rather than skill-content difference.
+- **Absolute corpus score holds at ~66/67** across evals 01–14. The delta-vs-baseline is now 0 because baseline was just brought into line; this number will grow again only when the current skill diverges from the rolled baseline.
+
+### Follow-ups
+
+- Keep adding evals that probe for *unsurfaced* rules (rules not in either version's current docs) — those are the cleanest way to detect whether the skill still has room to improve without needing to first update the skill.
+- Next natural prompt directions: validation error presentation, empty states, typography hierarchy in dense forms, platform-theme-color usage. Each probes a principle page on the JetBrains guidelines that we haven't pulled yet.
+
 ## run 7 — Tier 3 compositional taste (evals 11–13) — 2026-04-21
 
 Tests whether the skill picks the *right* component for a UX intent, not just any technically-correct one. Added `COMPONENT-SELECTION.md` (decision-tree reference grounded in the JetBrains IntelliJ UI Guidelines) and a short "Pick the Right Component" section in SKILL.md that cross-links to it. Three new prompts exercise three common traps.

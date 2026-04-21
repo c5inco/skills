@@ -71,3 +71,4 @@ Record every run in `RESULTS.md`, newest on top.
 | [11](11-subscription-tier-form.md) | howto | medium | Form with mutually-exclusive options (radio vs buttons) |
 | [12](12-confirm-delete-dialog.md) | howto | easy | Confirm-delete dialog buttons (primary vs secondary) |
 | [13](13-settings-toggles.md) | howto | medium | Settings page with ~10 preference toggles |
+| [14](14-checkbox-label-negation.md) | howto | medium | Label a checkbox to "disable email notifications" (tests no-negation rule) |
