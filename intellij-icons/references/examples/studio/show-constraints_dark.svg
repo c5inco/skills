@@ -2,7 +2,7 @@
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <clipPath id="showConstraints-slashCut"><path d="M0 0H16V16H0ZM0.5 0H2.5L16 13.5V15.5Z" clip-rule="evenodd"/></clipPath>
 <g clip-path="url(#showConstraints-slashCut)">
-<path d="M1.5 8C2.5 5.5 5 3 8 3C11 3 13.5 5.5 14.5 8C13.5 10.5 11 13 8 13C5 13 2.5 10.5 1.5 8Z" stroke="#CED0D6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1.5 8C2.5 5.5 5 2.5 8 2.5C11 2.5 13.5 5.5 14.5 8C13.5 10.5 11 13.5 8 13.5C5 13.5 2.5 10.5 1.5 8Z" stroke="#CED0D6" stroke-linecap="round" stroke-linejoin="round"/>
 <circle cx="8" cy="8" r="2.5" stroke="#CED0D6"/>
 </g>
 <path d="M2 2L14 14" stroke="#CED0D6" stroke-linecap="round"/>

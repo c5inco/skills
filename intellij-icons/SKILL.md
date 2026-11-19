@@ -37,6 +37,24 @@ refer to it rather than repeating them.
   as-is and must not be re-snapped — e.g., the `0.75px` inner-stroke inset at
   `20×20` (`r="8.25"`, `x="2.75"`) and the path `rx` values in Section 2
   (`1.25`, `0.25`).
+- **Pixel-aligned strokes**: Center every horizontal or vertical `1px` stroke
+  on a `.5` coordinate so both painted edges land on whole pixels (centerline
+  `4.5` → edges `4` and `5`). A `1px` stroke centered on a whole number
+  (`x="4"`) straddles two pixel columns and renders as a blurry `2px` gray line
+  at 1×. The same applies to the extremes of curves (the top of a circle, the
+  bottom of an arc). At `20×20`, center `1.5px` strokes on `.25`/`.75` so the
+  outer edge lands on a whole pixel, as the inner-stroke inset does.
+  **Exception**: on an even canvas, a stroke on the icon's axis of symmetry
+  (e.g., `x="8"` at `16×16`: a down arrow's shaft, a plus, a crosshair tick)
+  cannot be both centered and pixel-aligned. Keep it on the axis so the icon
+  stays symmetric, as IntelliJ's own icons do; it renders soft at 1× and crisp
+  at 2×. Shift it by `0.5px` only when the icon is not symmetric anyway.
+- **Derived points**: A point defined by construction rather than placed by
+  hand may fall off the `0.5px` grid: an arc endpoint on a concentric circle,
+  a tangent point, a vertex of a regular polygon (e.g., a 6-blade aperture).
+  Compute it exactly, round to two decimals, and do not snap it off its
+  construction. Keep axis-aligned edges on the grid, and list each derived
+  point in the deviation report (Section 4).
 - **No excessive anchor points**: Simplify `<path>` geometry to remove redundant
   vertices, collinear points, and unnecessary curve segments.
 - **Letterforms**: Use **JetBrains Sans** whenever an icon includes a letterform
@@ -154,7 +172,7 @@ path by the table's inset value on each edge:
 ### Connected Shapes, Cutouts, and Modifiers
 
 - **Connected parts of one glyph**: Make their painted geometry a continuous visual union, without artificial clearance gaps. Overlapping opaque shapes are sufficient; flatten to a Boolean union only when needed to remove internal seams. Preserve intentional interior holes, such as the center of an outlined ring.
-- **Concentric shapes**: Nested or parallel curves share a center (concentric arcs, rings, offset rounded rectangles) so the gap between them stays uniform along the whole curve. For example, an arc that sits `2px` outside an `r="6.5"` arc uses `r="8.5"` around the same center, not a new circle fitted through new endpoints.
+- **Concentric shapes**: Nested or parallel curves share a center (concentric arcs, rings, offset rounded rectangles) so the gap between them stays uniform along the whole curve. For example, an arc that sits `2px` outside an `r="6.5"` arc uses `r="8.5"` around the same center, not a new circle fitted through new endpoints. Where such an arc ends on its circle rather than on the grid, treat the endpoint as a derived point (Section 1).
 - **Distinct overlapping objects**: Interrupt the rear object's strokes when needed to keep the foreground object recognizable. Do not add cuts merely because two SVG elements intersect or use different colors.
 - **Modifier hierarchy**: A modifier is a small symbol overlaid on a dominant base icon, not a connected structural part. Reuse an established modifier where possible. Bottom-right is the default; use another corner when that preserves the base silhouette or matches the relevant icon family.
 - **Modifier size and detail**: Use the modifier size and stroke from the table, according to weight and catalog references. The `16×16` values are the reference spec; the `20×20` values scale them proportionally (×1.25), and `14×14` reuses them. Author at the target size with pixel-aligned geometry; do not proportionally shrink a full-size icon and its stroke. Do not add a sub-modifier inside a modifier. If its identity does not survive at this size, use a simpler established symbol or a standalone icon.
@@ -241,10 +259,11 @@ per-size values come from the Section 2 table.
    symbol, sits in a corner, matches the table's size, stroke, and clearance,
    has clearance that follows its full silhouette, and keeps its semantic color.
 5. **Precision & path hygiene**: Linework is live strokes, not outlined fills.
-   Snap to `0.5px` (respecting the stroke-derived
-   and letterform exceptions, and judging outlined files by their straight
-   edges), remove excessive anchor points, give every `id` an icon-specific
-   name, strip unused `<defs>`/`<g>`
+   Snap to `0.5px` (respecting the stroke-derived, letterform, and
+   derived-point exceptions, and judging outlined files by their straight
+   edges); horizontal and vertical `1px` strokes sit on `.5` centerlines so
+   their edges land on whole pixels. Remove excessive anchor points, give every
+   `id` an icon-specific name, strip unused `<defs>`/`<g>`
    wrappers, remove gradients, shadows, and filters, replace masks with
    geometric cuts or clip paths where feasible, and convert any `<text>` to
    paths.
