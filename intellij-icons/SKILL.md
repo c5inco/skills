@@ -47,7 +47,8 @@ Match the SVG canvas size to the UI surface where the icon is used.
 | **Usage** | Main toolbar, Tool windows | Default for most UI elements (Toolbars, Trees, Menus, etc.) | Gutter, Status bar |
 | **Filename (light / dark)** | `name@20x20.svg` / `name@20x20_dark.svg` | `name.svg` / `name_dark.svg` | `name@14x14.svg` / `name@14x14_dark.svg` |
 | **`stroke-width`** | `1.5` | `1` | `1` |
-| **End caps** | Round (`stroke-linecap="round"`) | Round allowed | — |
+| **End caps** | Round (`stroke-linecap="round"`) | Round (`stroke-linecap="round"`) | Round (`stroke-linecap="round"`) |
+| **Line joins** | Round (`stroke-linejoin="round"`) | Round (`stroke-linejoin="round"`) | Round (`stroke-linejoin="round"`) |
 | **Outer padding** (canvas edge to painted geometry) | `1px` | `1px` | `0–1px` |
 | **Inner-stroke inset** (larger forms) | `0.75px` | `0.5px` | — |
 | **Corner radius, large shapes** (visible outer edge) | `2px` → path `rx="1.25"` | `2px` → path `rx="1.5"` | `1px` → path `rx="0.5"` |
@@ -87,6 +88,13 @@ path by the table's inset value on each edge:
 - **`16×16`**: a `14×14` circle centered at `(8, 8)` uses `r="6.5"`; a `12×12`
   square from `x=2..14` uses `x="2.5" y="2.5" width="11" height="11" rx="1.5"`.
 
+### Diagonals and Arrows
+
+- **Angles**: Draw strokes horizontal, vertical, or at 45°. Avoid arbitrary angles.
+- **Diagonal stroke weight**: Diagonal strokes use the same `stroke-width` as straight ones (`1px` at `16×16`). Do not thicken them to compensate for anti-aliasing, even though a 45° line renders softer than an axis-aligned one at 1×.
+- **Arrowheads**: Each arm meets the shaft at 45°, so the two arms are 90° apart. A horizontal or vertical shaft has diagonal arms; a diagonal shaft has one horizontal and one vertical arm.
+- **Arrow ends and tips**: Use round caps on the shaft and arm ends, and a round join at the tip where the arms meet — never a sharp miter point.
+
 ### Connected Shapes, Cutouts, and Modifiers
 
 - **Connected parts of one glyph**: Make their painted geometry a continuous visual union, without artificial clearance gaps. Overlapping opaque shapes are sufficient; flatten to a Boolean union only when needed to remove internal seams. Preserve intentional interior holes, such as the center of an outlined ring.
@@ -97,7 +105,7 @@ path by the table's inset value on each edge:
 - **Slashes and other occluding marks**: Cut the underlying strokes around the crossing so the mark remains legible; do not simply paint a slash over intact details. Follow an existing icon-family reference for its clearance.
 - **Modifier color**: Preserve the established symbol's semantic palette role from Section 3; modifiers are not automatically blue. Retain shape differences so color is not the only way to distinguish concepts.
 
-Catalog references: [connected zoom plus](https://intellij-icons.web.app/icons/AllIcons/expui/image/zoomIn.svg), [magnifier modifier](https://studio-icons.web.app/icons/shell/menu/layout-inspector.svg), [occluding slash](https://studio-icons.web.app/icons/layout-editor/toolbar/show-constraints.svg), and [stop modifier](https://intellij-icons.web.app/icons/AllIcons/expui/actions/restartStop.svg). The [general JetBrains modifier guide](https://plugins.jetbrains.com/docs/intellij/icons-style.html#modifier) supports corner placement, 6–9px sizing, and 1–2px spacing; its legacy stroke and color rules do not override this skill's values.
+Reference icons: see [`references/examples/README.md`](references/examples/README.md) for real light/dark SVG pairs illustrating connected glyphs, diagonals and arrows, modifiers at all three sizes, occluding slashes, keylines, solid fills, and outlined letterforms. Read the SVG source when you need exact geometry or clearance. Online sources include [connected search magnifier](https://intellij-icons.web.app/icons/AllIcons/expui/general/search.svg), [magnifier modifier](https://studio-icons.web.app/icons/shell/menu/layout-inspector.svg), [occluding slash](https://studio-icons.web.app/icons/layout-editor/toolbar/show-constraints.svg), and [stop modifier](https://intellij-icons.web.app/icons/AllIcons/expui/actions/restartStop.svg). The [general JetBrains modifier guide](https://plugins.jetbrains.com/docs/intellij/icons-style.html#modifier) supports corner placement, 6–9px sizing, and 1–2px spacing; its legacy stroke and color rules do not override this skill's values.
 
 ## 3. Color Palette & Theme Variants
 
@@ -155,9 +163,12 @@ per-size values come from the Section 2 table.
    the intended size, and the filename follows the Section 2 pattern.
 2. **Padding & keylines**: Painted strokes stay inside the Section 2 outer padding
    and align to the keylines, except for overlaid modifiers.
-3. **Stroke, caps & radii**: `stroke-width`, end caps, inner-stroke inset, and
-   corner radii (visible outer edge → path `rx`) match the Section 2 table.
-4. **Joins & modifiers**: Connected parts form a continuous union; distinct
+3. **Stroke, caps, joins & radii**: `stroke-width`, end caps, round line joins,
+   inner-stroke inset, and corner radii (visible outer edge → path `rx`) match
+   the Section 2 table.
+   Strokes run at 0°, 45°, or 90°, diagonals keep the same `stroke-width`, and
+   arrowhead arms meet the shaft at 45°.
+4. **Connections & modifiers**: Connected parts form a continuous union; distinct
    overlaps and slashes are cut where needed. Any modifier uses an established
    symbol, sits in a corner, matches the table's size, stroke, and clearance,
    has clearance that follows its full silhouette, and keeps its semantic color.
