@@ -9,6 +9,20 @@ Use these rules when creating, auditing, or fixing SVG icons in the **IntelliJ**
 Section 2 is the single source of truth for per-size values; other sections
 refer to it rather than repeating them.
 
+## Workflow
+
+1. **Find a reference**: Pick the closest icon in
+   [`references/examples/README.md`](references/examples/README.md) for the
+   technique you need (connected glyph, arrow, modifier, slash, solid badge,
+   size variant) and read its SVG source before drawing.
+2. **Author** at the target size following Sections 1–3. When starting from
+   another icon set, see Section 5.
+3. **Audit** with the Section 4 checklist, items 1–6.
+4. **Render & inspect** (checklist item 7). Do not report an icon as done
+   until you have looked at its 1× and 2× rasters.
+5. **Report deviations**: End with the deviation report described at the end
+   of Section 4.
+
 ## 1. General Rules
 
 - **Outline first**: Use outline icons whenever possible rather than filled
@@ -27,16 +41,49 @@ refer to it rather than repeating them.
   vertices, collinear points, and unnecessary curve segments.
 - **Letterforms**: Use **JetBrains Sans** whenever an icon includes a letterform
   (e.g., Class, Interface, etc.), and convert the text to outlined paths. Never
-  ship a `<text>` element.
+  ship a `<text>` element. Outlined glyph curves are exempt from the `0.5px`
+  step; align the glyph's baseline, cap height, and straight stems to the grid
+  instead.
 - **Exact canvas bounds**: Set `width`, `height`, and `viewBox` to the exact
   icon size (e.g., `0 0 16 16`) and ensure all visible geometry stays within
   bounds (a `<clipPath>` to the canvas bounds is fine if necessary).
 - **Avoid masks**: Create cutouts, clearances, and gaps by cutting the actual
   path geometry or with a `<clipPath>`. Use `<mask>` only as a last resort when
   neither is feasible.
+- **Unique ids**: Give every `id` (e.g., a `<clipPath>`) a name unique to the
+  icon, such as `layoutInspector-lensClearance`, not a generic name like
+  `clip` or `lens-clearance`. When several SVGs are inlined into one HTML
+  page, they share a single id namespace, and a duplicate makes one icon
+  silently use another icon's clip.
 - **Colors via attributes only**: Set colors with `fill="…"` and `stroke="…"`
   attributes. Do not use `style="…"`, `class`, or `<style>` CSS — IntelliJ's
   runtime recoloring matches on the attribute values.
+- **Live strokes, not outlines**: Author and edit linework as stroked paths
+  (`stroke="…"` with `stroke-width`, `stroke-linecap`, `stroke-linejoin`), and
+  do not outline strokes into filled shapes on export. Live strokes keep the
+  geometry readable, auditable, and easy to change. Use fills only for shapes
+  that are filled by design (Solid badges, letterforms, Default fill areas).
+
+### Auditing Outlined Files
+
+Many shipped icons were exported with strokes outlined into filled paths. Their
+round caps and joins become curves with decimal control points (e.g.,
+`8.27614`), so the attribute-based rules cannot be checked literally. Audit
+them by their **painted edges** instead:
+
+- **Grid**: Straight edges must fall on the grid. For a `1px` stroke centered
+  on a `.5` position, the edges land on whole pixels (e.g., centerline `2.5`
+  → edges `2` and `3`). For a `1.5px` stroke at `20×20` centered on a
+  `.25`/`.75` position, the edges land on whole or half pixels (e.g.,
+  centerline `2.75` → edges `2` and `3.5`). Curve control points are exempt
+  from the `0.5px` step.
+- **Stroke width**: Measure the distance between parallel edges; it must equal
+  the Section 2 `stroke-width`.
+- **Caps & joins**: Check visually that open ends and corners form the round
+  shapes a live stroke would produce (semicircular ends, rounded corners).
+- **When fixing**: Redraw the linework as live strokes rather than editing the
+  outline, then compare the 1× and 2× rasters against the original
+  (checklist item 7).
 
 ## 2. Size Specifications
 
@@ -47,8 +94,8 @@ Match the SVG canvas size to the UI surface where the icon is used.
 | **Usage** | Main toolbar, Tool windows | Default for most UI elements (Toolbars, Trees, Menus, etc.) | Gutter, Status bar |
 | **Filename (light / dark)** | `name@20x20.svg` / `name@20x20_dark.svg` | `name.svg` / `name_dark.svg` | `name@14x14.svg` / `name@14x14_dark.svg` |
 | **`stroke-width`** | `1.5` | `1` | `1` |
-| **End caps** | Round (`stroke-linecap="round"`) | Round (`stroke-linecap="round"`) | Round (`stroke-linecap="round"`) |
-| **Line joins** | Round (`stroke-linejoin="round"`) | Round (`stroke-linejoin="round"`) | Round (`stroke-linejoin="round"`) |
+| **End caps** (open strokes) | Round (`stroke-linecap="round"`) | Round (`stroke-linecap="round"`) | Round (`stroke-linecap="round"`) |
+| **Line joins** (where segments meet) | Round (`stroke-linejoin="round"`) | Round (`stroke-linejoin="round"`) | Round (`stroke-linejoin="round"`) |
 | **Outer padding** (canvas edge to painted geometry) | `1px` | `1px` | `0–1px` |
 | **Inner-stroke inset** (larger forms) | `0.75px` | `0.5px` | — |
 | **Corner radius, large shapes** (visible outer edge) | `2px` → path `rx="1.25"` | `2px` → path `rx="1.5"` | `1px` → path `rx="0.5"` |
@@ -57,6 +104,15 @@ Match the SVG canvas size to the UI surface where the icon is used.
 | **Modifier visual size** | ~`7.5–11px` | ~`6–9px` | ~`6–9px` |
 | **Modifier `stroke-width`** | `1.5` | `1` | `1` |
 | **Modifier clearance** | ≥ `1.5px`, typically `1.5–2.5px` | ≥ `1px`, typically `1–2px` | ≥ `1px`, typically `1–2px` |
+
+### Caps and Joins
+
+Caps and joins only apply where they're visible. A single straight segment
+needs round caps but no join; a closed shape such as a `<rect>` or `<circle>`
+has no caps. Any stroked path where segments meet (polylines, arrowheads,
+paths mixing lines and arcs, closed paths) needs `stroke-linejoin="round"`.
+Ends that stop at a modifier or slash clearance are cut, not capped (see
+*Cut ends, not caps* below).
 
 ### Corner Radius
 
@@ -90,7 +146,7 @@ path by the table's inset value on each edge:
 
 ### Diagonals and Arrows
 
-- **Angles**: Draw strokes horizontal, vertical, or at 45°. Avoid arbitrary angles.
+- **Angles**: Draw strokes horizontal, vertical, or at 45°. Avoid arbitrary angles. Established symbols keep their canonical angles (for example, a play triangle or a warning triangle); snap their vertices to the `0.5px` grid.
 - **Diagonal stroke weight**: Diagonal strokes use the same `stroke-width` as straight ones (`1px` at `16×16`). Do not thicken them to compensate for anti-aliasing, even though a 45° line renders softer than an axis-aligned one at 1×.
 - **Arrowheads**: Each arm meets the shaft at 45°, so the two arms are 90° apart. A horizontal or vertical shaft has diagonal arms; a diagonal shaft has one horizontal and one vertical arm.
 - **Arrow ends and tips**: Use round caps on the shaft and arm ends, and a round join at the tip where the arms meet — never a sharp miter point.
@@ -98,11 +154,13 @@ path by the table's inset value on each edge:
 ### Connected Shapes, Cutouts, and Modifiers
 
 - **Connected parts of one glyph**: Make their painted geometry a continuous visual union, without artificial clearance gaps. Overlapping opaque shapes are sufficient; flatten to a Boolean union only when needed to remove internal seams. Preserve intentional interior holes, such as the center of an outlined ring.
+- **Concentric shapes**: Nested or parallel curves share a center (concentric arcs, rings, offset rounded rectangles) so the gap between them stays uniform along the whole curve. For example, an arc that sits `2px` outside an `r="6.5"` arc uses `r="8.5"` around the same center, not a new circle fitted through new endpoints.
 - **Distinct overlapping objects**: Interrupt the rear object's strokes when needed to keep the foreground object recognizable. Do not add cuts merely because two SVG elements intersect or use different colors.
 - **Modifier hierarchy**: A modifier is a small symbol overlaid on a dominant base icon, not a connected structural part. Reuse an established modifier where possible. Bottom-right is the default; use another corner when that preserves the base silhouette or matches the relevant icon family.
 - **Modifier size and detail**: Use the modifier size and stroke from the table, according to weight and catalog references. The `16×16` values are the reference spec; the `20×20` values scale them proportionally (×1.25), and `14×14` reuses them. Author at the target size with pixel-aligned geometry; do not proportionally shrink a full-size icon and its stroke. Do not add a sub-modifier inside a modifier. If its identity does not survive at this size, use a simpler established symbol or a standalone icon.
 - **Modifier clearance**: Leave the clearance from the table between modifier and base. Follow the modifier's entire outer silhouette, including protrusions such as a magnifier handle; do not erase a generic bounding rectangle or only the lens. Cut the rear geometry so the clearance stays transparent on different backgrounds. A modifier may use the outer-padding area, but its painted bounds must stay inside the canvas.
 - **Slashes and other occluding marks**: Cut the underlying strokes around the crossing so the mark remains legible; do not simply paint a slash over intact details. Follow an existing icon-family reference for its clearance.
+- **Cut ends, not caps**: Where a stroke stops to leave clearance around a modifier, slash, or overlapping object, end it with a cut that follows the clearance contour (the foreground's painted silhouette offset by the clearance), not a round cap. A round cap reads as a free end, and if it is placed at the clearance distance by its centerline, it eats half the stroke width into the gap. Make the cut with a `<clipPath>` whose edge is the clearance contour. Strokes inside it can keep their round caps; the clip trims them flat. Measure clearance between painted edges. Round caps remain for free ends. Exception: a stroke interrupted head-on along its own axis by a modifier with round ends (the plus in `add-component`) may end in round caps, so both sides of the gap match.
 - **Modifier color**: Preserve the established symbol's semantic palette role from Section 3; modifiers are not automatically blue. Retain shape differences so color is not the only way to distinguish concepts.
 
 Reference icons: see [`references/examples/README.md`](references/examples/README.md) for real light/dark SVG pairs illustrating connected glyphs, diagonals and arrows, modifiers at all three sizes, occluding slashes, keylines, solid fills, and outlined letterforms. Read the SVG source when you need exact geometry or clearance. Online sources include [connected search magnifier](https://intellij-icons.web.app/icons/AllIcons/expui/general/search.svg), [magnifier modifier](https://studio-icons.web.app/icons/shell/menu/layout-inspector.svg), [occluding slash](https://studio-icons.web.app/icons/layout-editor/toolbar/show-constraints.svg), and [stop modifier](https://intellij-icons.web.app/icons/AllIcons/expui/actions/restartStop.svg). The [general JetBrains modifier guide](https://plugins.jetbrains.com/docs/intellij/icons-style.html#modifier) supports corner placement, 6–9px sizing, and 1–2px spacing; its legacy stroke and color rules do not override this skill's values.
@@ -113,11 +171,17 @@ Always use exact hex values from the IntelliJ UI palette below and maintain pair
 light and dark SVG files. DO NOT invent ad-hoc hex values or mix in legacy
 Classic UI colors (e.g., `#6E6E6E`, `#AFB1B3`, `#DB5860`, `#59A869`, `#389FD6`)
 — IntelliJ Platform themes rely on exact hex matching for runtime recoloring.
+Write every value in full six-digit form exactly as listed (`#FFFFFF`, never
+`#fff`).
 
 **Dark variants**: For every element, use the dark value listed in the same row
 (or cell) as its light value, literally. Some light values are shared by
 several roles (e.g., `#818594` is both Muted stroke and Secondary stroke);
 decide which role the element plays, then use that role's dark value.
+
+**Theme parity**: Light and dark files must paint identical geometry; only the
+colors differ. Non-painting structure, such as a `<clipPath>` to the canvas
+bounds or a wrapping `<g>`, may differ between the two files.
 
 ### Neutral Colors
 
@@ -163,26 +227,58 @@ per-size values come from the Section 2 table.
    the intended size, and the filename follows the Section 2 pattern.
 2. **Padding & keylines**: Painted strokes stay inside the Section 2 outer padding
    and align to the keylines, except for overlaid modifiers.
-3. **Stroke, caps, joins & radii**: `stroke-width`, end caps, round line joins,
-   inner-stroke inset, and corner radii (visible outer edge → path `rx`) match
-   the Section 2 table.
+3. **Stroke, caps, joins & radii**: `stroke-width`, round caps on open strokes,
+   round joins wherever segments meet, inner-stroke inset, and corner radii
+   (visible outer edge → path `rx`) match the Section 2 table.
    Strokes run at 0°, 45°, or 90°, diagonals keep the same `stroke-width`, and
-   arrowhead arms meet the shaft at 45°.
+   arrowhead arms meet the shaft at 45°. For outlined files, check these by
+   painted edges (see *Auditing Outlined Files* in Section 1).
 4. **Connections & modifiers**: Connected parts form a continuous union; distinct
-   overlaps and slashes are cut where needed. Any modifier uses an established
+   overlaps and slashes are cut where needed; nested curves are concentric.
+   Strokes that stop at a clearance end in a cut along the clearance contour,
+   not a round cap.
+   Any modifier uses an established
    symbol, sits in a corner, matches the table's size, stroke, and clearance,
    has clearance that follows its full silhouette, and keeps its semantic color.
-5. **Precision & path hygiene**: Snap to `0.5px` (respecting the stroke-derived
-   exception), remove excessive anchor points, strip unused `<defs>`/`<g>`
+5. **Precision & path hygiene**: Linework is live strokes, not outlined fills.
+   Snap to `0.5px` (respecting the stroke-derived
+   and letterform exceptions, and judging outlined files by their straight
+   edges), remove excessive anchor points, give every `id` an icon-specific
+   name, strip unused `<defs>`/`<g>`
    wrappers, remove gradients, shadows, and filters, replace masks with
    geometric cuts or clip paths where feasible, and convert any `<text>` to
    paths.
 6. **Colors & theme parity**: Colors are set only via `fill`/`stroke`
-   attributes (no `style`, `class`, or CSS); every hex is an exact Section 3
-   value; both light and dark variants exist with identical geometry, and each
-   dark color is the table's dark value for the same role.
+   attributes (no `style`, `class`, or CSS); every hex is an exact, six-digit
+   Section 3 value; both light and dark variants exist and paint identical
+   geometry, and each dark color is the table's dark value for the same role.
 7. **Render & inspect**: Inspect native-size 1× and 2× rasters and
    nearest-neighbor pixel enlargements on light and dark backgrounds. Check
    that intended joins remain connected, clearance follows the foreground
    silhouette, and both the base and any modifier are recognizable. Keylines
    are review overlays, not exported geometry.
+
+### Deviation Report
+
+End every authoring or audit task with a deviation report: for each icon, list
+every checklist rule it does not meet and why (for example, "camera: blades at
+60°, required by the 6-blade aperture"), or state "No deviations". Do not claim
+an item passed, including item 7, unless you actually checked it.
+
+## 5. Converting From Other Icon Sets
+
+When redrawing an icon from another set (e.g., a 24px Material Symbol) at
+IntelliJ sizes, do not scale the source down; re-author it at the target size.
+
+- **Count what fits**: At `16×16`, a `1px` stroke plus a `1px` clear gap is a
+  `2px` pitch, so a `14px` live area holds about seven parallel strokes at most.
+  Count the source's repeated features (ridges, bars, rings) and drop the extras
+  rather than squeezing the gaps below `1px`. For example, a fingerprint's six
+  ridges become four.
+- **Keep the identifying features**: Preserve the silhouette and the one or
+  two details that make the symbol recognizable; simplify everything else.
+- **Convert fills to outlines**: Turn filled glyphs into outline strokes, keeping
+  fills only for Solid roles (Section 3).
+- **Compare against the source**: Render the redraw at 1× next to the source
+  at its native size (checklist item 7) and confirm the symbol still reads the
+  same.

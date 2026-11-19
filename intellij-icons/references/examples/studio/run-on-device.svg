@@ -1,1 +1,7 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 7V3H4v10h4v1H4a1 1 0 01-1-1V3a1 1 0 011-1h6a1 1 0 011 1v4h-1z" fill="#6C707E"/><path d="M15.108 11.492a.6.6 0 01.011 1.036l-4.71 2.825a.6.6 0 01-.909-.515V9.332a.6.6 0 01.897-.522l4.71 2.682z" fill="#F2FCF3" stroke="#208A3C" stroke-linecap="round"/><rect x="6" y="4" width="2" height="1" rx=".5" fill="#6C707E"/></svg>
+<!-- Modified for the intellij-icons skill: redrawn with live strokes on the 0.5px grid; visually matched to the original. -->
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<clipPath id="runOnDevice-playClearance"><path d="M0 0H16V16H0ZM8 7H16V16H8Z" clip-rule="evenodd"/></clipPath>
+<path d="M10.5 7.5V3A0.5 0.5 0 0 0 10 2.5H4A0.5 0.5 0 0 0 3.5 3V13A0.5 0.5 0 0 0 4 13.5H8.5" stroke="#6C707E" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#runOnDevice-playClearance)"/>
+<path d="M6.5 4.5H7.5" stroke="#6C707E" stroke-linecap="round"/>
+<path d="M9.5 8.5L15.5 12L9.5 15.5Z" fill="#F2FCF3" stroke="#208A3C" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

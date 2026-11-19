@@ -4,29 +4,48 @@ Real shipped icons that illustrate the rules in `SKILL.md`. Each comes as a
 light/dark pair. Read the SVG source to see exact geometry, clearances, and
 palette mapping; render it to compare visual weight.
 
-These are production exports, so most strokes are already outlined to filled
-paths and coordinates carry Figma-style decimals (e.g., `11.475`). Use them as
-**design references**, not as models for path hygiene or the `0.5px` snap rule.
+Every file follows the skill's rules exactly, so you can copy geometry and
+attributes from them directly. All linework is live strokes. Many shipped
+exports outline strokes into filled paths with Figma-style decimals; those were
+redrawn as live strokes on the `0.5px` grid and compared against the originals
+at 1× and 2×. See [Changes from the shipped icons](#changes-from-the-shipped-icons)
+for the few visible differences. The only fills are filled-by-design shapes
+(the `warning` badge, the `interface` letterform, tints).
 
 | File | Size | Demonstrates |
 | :--- | :--- | :--- |
-| `intellij/search.svg` | 16 | Connected glyph with a diagonal: the handle starts on the lens's stroke centerline at 45°, so the two strokes overlap with no gap. The 45° handle stays `1px` and renders softer than the lens at 1× — that is expected, not a defect. Authored as live strokes with round caps; light and dark share identical geometry. Its endpoints carry upstream decimals (`10.1992`); when authoring, snap them (e.g., `10.5 10.5`). |
-| `intellij/locate.svg` | 16 | Connected glyph with axis-aligned joins: ticks join the ring at 90°, so the joins stay pixel-crisp. |
-| `intellij/close.svg` | 16 | Pure 45° diagonals at `1px` with round caps. |
-| `intellij/down.svg` | 16 | Vertical arrow: arms at 45° to the shaft (90° apart). Its tip is a sharp miter point — an upstream inconsistency; use a round join instead (see `openInToolWindow.svg`). |
-| `intellij/export.svg` | 16 | Diagonal arrow: 45° shaft with one horizontal and one vertical arm. |
+| `intellij/search.svg` | 16 | Connected glyph with a diagonal: the handle starts inside the lens's stroke at 45° (`10.5 10.5`), so the two strokes overlap with no gap. The 45° handle stays `1px` and renders softer than the lens at 1× — that is expected, not a defect. |
+| `intellij/interface.svg` | 16 | Letterform converted to an outlined path (no `<text>`): the serif "I" sits entirely on the `0.5px` grid, inside a Green **Stroke** + **Tint** node circle (`r="6.5"`). |
+| `intellij/locate.svg` | 16 | Connected glyph with axis-aligned joins: ticks start inside the ring's stroke at 90°, so the joins stay pixel-crisp. |
+| `intellij/close.svg` | 16 | Pure 45° diagonals at `1px` with round caps. Single segments, so no join attribute is needed. |
+| `intellij/down.svg` | 16 | Vertical arrow: arms at 45° to the shaft (90° apart), meeting at a round join. |
+| `intellij/export.svg` | 16 | Diagonal arrow: 45° shaft with one horizontal and one vertical arm, beside an open bracket with a `1.5` arc corner. |
 | `intellij/openInToolWindow.svg` | 16 | Diagonal arrow as live strokes with round caps/joins inside an inner-stroke frame (`x="2.5"`, `rx="1.5"` → `2px` visible radius). |
-| `intellij/restartStop.svg` | 16 | Stop modifier, bottom-right, using Red **Stroke** + **Tint**; base arrow is cut back to leave clearance. |
-| `studio/layout-inspector.svg` | 16 | Magnifier modifier in Blue **Accent**; the base rectangle is cut along a circle around the lens, leaving `1px` clearance. |
-| `studio/add-component.svg` | 16 | Green plus modifier; the base's bottom stroke is interrupted around it instead of painted over. |
-| `studio/run-on-device.svg` | 16 | Play modifier with Green **Stroke** + **Tint** on a neutral phone base. |
+| `intellij/restartStop.svg` | 16 | Stop modifier, bottom-right, using Red **Stroke** + **Tint**. The restart arc is cut flat by a `<clipPath>` along the `1px` clearance contour (a rounded square around the modifier) instead of ending in a round cap. |
+| `studio/layout-inspector.svg` | 16 | Magnifier modifier in Blue **Accent**; the front card is cut by a `<clipPath>` circle `1px` outside the lens (`r="4"`), so its cut ends follow the lens silhouette. |
+| `studio/add-component.svg` | 16 | Green plus modifier; the base's bottom stroke is interrupted around it instead of painted over. Its ends keep round caps: the interruption is head-on along the stroke's own axis, facing the plus's round ends (the exception in *Cut ends, not caps*). |
+| `studio/run-on-device.svg` | 16 | Play modifier with Green **Stroke** + **Tint** on a neutral phone base. The phone outline is cut flat by a rectangular `<clipPath>` at least `1px` from the play triangle, which keeps its canonical angles with vertices on the grid. |
 | `studio/run-on-device@14x14.svg` | 14 | The same icon re-authored for `14×14` — compare with the `16×16` version for modifier sizing at 14px. |
-| `studio/device-explorer@20x20.svg` | 20 | Magnifier modifier at `20×20`: `1.5` stroke, round caps, and `1.5px` clearance (vs. `1px` in `layout-inspector.svg`). |
-| `studio/show-constraints.svg` | 16 | Occluding slash: eye strokes are cut around the diagonal so the slash reads cleanly. |
-| `studio/structure@20x20.svg` | 20 | `20×20` base shapes: `1.5px` visible strokes, `2px` outer corner radius, fitted to the `16×16` square keyline (`2..18`). |
-| `studio/flag@14x14.svg` | 14 | Simple `14×14` outline with `1px` stroke. |
-| `studio/warning.svg` | 16 | Yellow **Solid** with **On yellow solid** glyph (`#FFFFFF` light / `#5E4D33` dark). |
-| `studio/edit-text.svg` | 16 | Letterforms converted to outlined paths (no `<text>`). |
+| `studio/device-explorer@20x20.svg` | 20 | Magnifier modifier at `20×20`: `1.5` stroke, and a `<clipPath>` circle giving `1.5px` clearance (vs. `1px` in `layout-inspector.svg`). |
+| `studio/show-constraints.svg` | 16 | Occluding slash: the eye and pupil are cut by a `<clipPath>` band on the slash's upper-right side (one-sided clearance, as in the shipped icon); the lower-left pieces abut the slash. |
+| `studio/structure@20x20.svg` | 20 | `20×20` base shapes as live-stroke `<rect>`s: `1.5px` strokes, `2px` outer corner radius (`rx="1.25"`), and the `0.75px` inner-stroke inset (`x="2.75"`), fitted to the `16×16` square keyline (`2..18`). |
+| `studio/flag@14x14.svg` | 14 | Simple `14×14` outline with `1px` stroke, round caps and joins, and a 45° fold. |
+| `studio/warning.svg` | 16 | Yellow **Solid** with **On yellow solid** glyph (`#FFFFFF` light / `#5E4D33` dark). The triangle's same-color stroke rounds its corners while its vertices stay on the grid. |
+
+## Changes from the shipped icons
+
+Raster comparison against the shipped originals (share of painted pixels whose
+luminance differs noticeably, at 1× / 2×):
+
+| File | Difference | Why |
+| :--- | :--- | :--- |
+| `search`, `locate`, `export`, `add-component`, `structure@20x20`, `layout-inspector`, `device-explorer@20x20` | 0% / 0% | Same pixels; only the source changed (live strokes, snapped coordinates, `<clipPath>` cuts). |
+| `restartStop` | 4% / 0% | Arc start snapped to the grid. |
+| `down` | 9% / 13% | Round join at the tip, as the skill requires; the shipped icon has a sharp miter. Arms snapped `0.2px` lower. |
+| `warning` | 10% / 16% | Corner radius `0.5px` (from the round join) instead of about `1.6px`, so the vertices stay on the grid. |
+| `run-on-device`, `run-on-device@14x14` | 10% / 17% | Play triangle vertices snapped to the grid. |
+| `show-constraints` | 27% / 30% | The eye is narrowed to keep the `1px` outer padding; the shipped eye touches the canvas edges. |
+| `flag@14x14` | 31% / 46% | The shipped pole sits at `x=3.14`, so it renders blurred across two pixel columns; snapping it to `x=3.5` makes it crisp, which shifts many pixels. The fold is now 45° instead of about 27°. |
 
 ## Sources & License
 
@@ -38,6 +57,7 @@ paths and coordinates carry Figma-style decimals (e.g., `11.475`). Use them as
   [studio-icons.web.app](https://studio-icons.web.app) / the Android Open Source
   Project. Apache License 2.0.
 
-Files are unmodified except that `studio/` files were renamed to this skill's
+Modified files carry a comment saying so. `close`, `openInToolWindow` and
+`interface` are unmodified. `studio/` files were renamed to this skill's
 filename convention (e.g., the gutter `run-on-device.svg` →
 `run-on-device@14x14.svg`).

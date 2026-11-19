@@ -1,1 +1,8 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 9.5v-6a1 1 0 011-1h9" stroke="#CED0D6" stroke-linecap="round"/><path fill-rule="evenodd" clip-rule="evenodd" d="M4 5h8v2.126c.355.091.69.23 1 .41V5a1 1 0 00-1-1H4a1 1 0 00-1 1v6a1 1 0 001 1h3.126A4.007 4.007 0 017 11H4V5z" fill="#CED0D6"/><circle cx="11" cy="11" r="2.5" stroke="#548AF7"/><path d="M13 13l2 2" stroke="#548AF7" stroke-linecap="round"/></svg>
+<!-- Modified for the intellij-icons skill: redrawn with live strokes on the 0.5px grid; visually matched to the original. -->
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<clipPath id="layoutInspector-lensClearance"><path d="M0 0H16V16H0ZM15 11A4 4 0 1 0 7 11A4 4 0 1 0 15 11Z" clip-rule="evenodd"/></clipPath>
+<path d="M1.5 9.5V3.5A1 1 0 0 1 2.5 2.5H11.5" stroke="#CED0D6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.5 8V5A0.5 0.5 0 0 0 12 4.5H4A0.5 0.5 0 0 0 3.5 5V11A0.5 0.5 0 0 0 4 11.5H8" stroke="#CED0D6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#layoutInspector-lensClearance)"/>
+<circle cx="11" cy="11" r="2.5" stroke="#548AF7"/>
+<path d="M13 13L15 15" stroke="#548AF7" stroke-linecap="round"/>
+</svg>
