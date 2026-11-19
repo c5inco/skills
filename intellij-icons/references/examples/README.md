@@ -49,17 +49,16 @@ luminance differs noticeably, at 1× / 2×):
 | `debug` | 36% / 42% | The shipped body's sides and bottom sit on whole-number centerlines (`x="4"`, `12`, `y="14"`), so they blur across two pixels at 1×. The redraw moves them to `.5` centerlines, making the body `1px` narrower; legs simplified to grid-snapped 2:1 slopes. |
 | `flag@14x14` | 31% / 46% | The shipped pole sits at `x=3.14`, so it renders blurred across two pixel columns; snapping it to `x=3.5` makes it crisp, which shifts many pixels. The fold is now 45° instead of about 27°. |
 
-## Sources & License
+## Sources
 
 - `intellij/`: IntelliJ Platform expui icons, from
-  [intellij-icons.web.app](https://intellij-icons.web.app) /
+  [intellij-icons.web.app](https://intellij-icons.web.app) and
   [JetBrains/intellij-community](https://github.com/JetBrains/intellij-community).
-  Copyright JetBrains s.r.o. and contributors, Apache License 2.0.
 - `studio/`: Android Studio icons, from
-  [studio-icons.web.app](https://studio-icons.web.app) / the Android Open Source
-  Project. Apache License 2.0.
+  [studio-icons.web.app](https://studio-icons.web.app) and Android Studio
+  `artwork`.
 
-Modified files carry a comment saying so. `close`, `openInToolWindow` and
-`interface` are unmodified. `studio/` files were renamed to this skill's
-filename convention (e.g., the gutter `run-on-device.svg` →
-`run-on-device@14x14.svg`).
+Modified files carry a header comment noting the redraw. `close`,
+`openInToolWindow`, and `interface` are unmodified. `studio/` files were
+renamed to this skill's filename convention (e.g., the gutter
+`run-on-device.svg` → `run-on-device@14x14.svg`).
