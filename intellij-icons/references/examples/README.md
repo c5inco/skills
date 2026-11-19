@@ -59,6 +59,7 @@ luminance differs noticeably, at 1× / 2×):
   `artwork`.
 
 Modified files carry a header comment noting the redraw. `close`,
-`openInToolWindow`, and `interface` are unmodified. `studio/` files were
-renamed to this skill's filename convention (e.g., the gutter
-`run-on-device.svg` → `run-on-device@14x14.svg`).
+`openInToolWindow`, and `interface` are unmodified. In this flat `studio/`
+directory, `14×14` files carry `@14x14` (e.g., `run-on-device@14x14.svg`,
+`flag@14x14.svg`) to distinguish sizes and avoid colliding with the `16×16`
+example.
