@@ -110,7 +110,7 @@ Match the SVG canvas size to the UI surface where the icon is used.
 | Property | `20×20` | `16×16` | `14×14` |
 | :--- | :--- | :--- | :--- |
 | **Usage** | Main toolbar, Tool windows | Default for most UI elements (Toolbars, Trees, Menus, etc.) | Gutter, Status bar |
-| **Filename (light / dark)** | `name@20x20.svg` / `name@20x20_dark.svg` | `name.svg` / `name_dark.svg` | `name@14x14.svg` / `name@14x14_dark.svg` |
+| **Filename (light / dark)** | `name@20x20.svg` / `name@20x20_dark.svg` | `name.svg` / `name_dark.svg` | `name@14x14.svg` / `name@14x14_dark.svg` (IntelliJ `ExpUiIcons`); `name.svg` / `name_dark.svg` (Studio `artwork`) |
 | **`stroke-width`** | `1.5` | `1` | `1` |
 | **End caps** (open strokes) | Round (`stroke-linecap="round"`) | Round (`stroke-linecap="round"`) | Round (`stroke-linecap="round"`) |
 | **Line joins** (where segments meet) | Round (`stroke-linejoin="round"`) | Round (`stroke-linejoin="round"`) | Round (`stroke-linejoin="round"`) |
@@ -242,7 +242,11 @@ When auditing or fixing an SVG icon, check and repair in this order. All
 per-size values come from the Section 2 table.
 
 1. **Canvas, `viewBox` & filename**: `width`, `height`, and `viewBox` match
-   the intended size, and the filename follows the Section 2 pattern.
+   the intended size, and the filename follows the Section 2 pattern for the
+   target icon set (note: Android Studio `artwork` under
+   `tools/adt/idea/artwork/resources/intui/icons/` omits `@14x14` suffixes on
+   `14×14` icons mapped in `StudioIntUiIconMappings.json` — do not rename
+   existing Studio icons in a way that breaks those mappings).
 2. **Padding & keylines**: Painted strokes stay inside the Section 2 outer padding
    and align to the keylines, except for overlaid modifiers.
 3. **Stroke, caps, joins & radii**: `stroke-width`, round caps on open strokes,
