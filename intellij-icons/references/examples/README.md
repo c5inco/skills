@@ -24,13 +24,13 @@ for the few visible differences. The only fills are filled-by-design shapes
 | `intellij/openInToolWindow.svg` | 16 | Diagonal arrow as live strokes with round caps/joins inside an inner-stroke frame (`x="2.5"`, `rx="1.5"` → `2px` visible radius). |
 | `intellij/restartStop.svg` | 16 | Stop modifier, bottom-right, using Red **Stroke** + **Tint**. The restart arc is cut flat by a `<clipPath>` along the `1px` clearance contour (a rounded square around the modifier) instead of ending in a round cap. |
 | `studio/layout-inspector.svg` | 16 | Magnifier modifier in Blue **Accent**; the front card is cut by a `<clipPath>` circle `1px` outside the lens (`r="4"`), so its cut ends follow the lens silhouette. |
-| `studio/add-component.svg` | 16 | Green plus modifier; the base's bottom stroke is interrupted around it instead of painted over. Its ends keep round caps: the interruption is head-on along the stroke's own axis, facing the plus's round ends (the exception in *Cut ends, not caps*). |
+| `studio/add-component.svg` | 16 | Green **Accent** (`#369650` / `#57965C`) plus modifier, centered on the bottom edge of a symmetric base; the bottom stroke is interrupted around it instead of painted over. Its ends keep round caps: the interruption is head-on along the stroke's own axis, facing the plus's round ends (the exception in *Cut ends, not caps*). |
 | `studio/run-on-device.svg` | 16 | Play modifier with Green **Stroke** + **Tint** on a neutral phone base. The phone outline is cut flat by a rectangular `<clipPath>` at least `1px` from the play triangle, which keeps its canonical angles with vertices on the grid. |
 | `studio/run-on-device@14x14.svg` | 14 | The same icon re-authored for `14×14` — compare with the `16×16` version for modifier sizing at 14px. |
 | `studio/device-explorer@20x20.svg` | 20 | Magnifier modifier at `20×20`: `1.5` stroke, and a `<clipPath>` circle giving `1.5px` clearance (vs. `1px` in `layout-inspector.svg`). |
 | `studio/show-constraints.svg` | 16 | Occluding slash, with the eye's top and bottom on `.5` centerlines (`2.5`/`13.5`): the eye and pupil are cut by a `<clipPath>` band on the slash's upper-right side (one-sided clearance, as in the shipped icon); the lower-left pieces abut the slash. |
 | `studio/structure@20x20.svg` | 20 | `20×20` base shapes as live-stroke `<rect>`s: `1.5px` strokes, `2px` outer corner radius (`rx="1.25"`), and the `0.75px` inner-stroke inset (`x="2.75"`), fitted to the `16×16` square keyline (`2..18`). |
-| `studio/flag@14x14.svg` | 14 | Simple `14×14` outline with `1px` stroke, round caps and joins, and a 45° fold. |
+| `studio/flag@14x14.svg` | 14 | Simple `14×14` outline with pixel-aligned `.5` `1px` strokes, round caps and joins, and a 45° fold. |
 | `studio/warning.svg` | 16 | Yellow **Solid** with **On yellow solid** glyph (`#FFFFFF` light / `#5E4D33` dark). The triangle's same-color stroke rounds its corners while its vertices stay on the grid. |
 
 ## Changes from the shipped icons
@@ -40,14 +40,14 @@ luminance differs noticeably, at 1× / 2×):
 
 | File | Difference | Why |
 | :--- | :--- | :--- |
-| `search`, `locate`, `export`, `add-component`, `structure@20x20`, `layout-inspector`, `device-explorer@20x20` | 0% / 0% | Same pixels; only the source changed (live strokes, snapped coordinates, `<clipPath>` cuts). |
+| `search`, `locate`, `export`, `add-component`, `structure@20x20`, `layout-inspector`, `device-explorer@20x20` | 0% / 0% | Same geometry (and `add-component` uses Green Accent `#369650` on light); only the source changed (live strokes, snapped coordinates, `<clipPath>` cuts). |
 | `restartStop` | 4% / 0% | Arc start snapped to the grid. |
 | `down` | 9% / 13% | Round join at the tip, as the skill requires; the shipped icon has a sharp miter. Arms snapped `0.2px` lower. |
 | `warning` | 10% / 16% | Corner radius `0.5px` (from the round join) instead of about `1.6px`, so the vertices stay on the grid. |
 | `run-on-device`, `run-on-device@14x14` | 10% / 17% | Play triangle vertices snapped to the grid. |
 | `show-constraints` | 33% / 34% | The eye is narrowed to keep the `1px` outer padding (the shipped eye touches the canvas edges), and its top and bottom moved to `.5` centerlines so they render crisp instead of blurred across two rows. |
 | `debug` | 36% / 42% | The shipped body's sides and bottom sit on whole-number centerlines (`x="4"`, `12`, `y="14"`), so they blur across two pixels at 1×. The redraw moves them to `.5` centerlines, making the body `1px` narrower; legs simplified to grid-snapped 2:1 slopes. |
-| `flag@14x14` | 31% / 46% | The shipped pole sits at `x=3.14`, so it renders blurred across two pixel columns; snapping it to `x=3.5` makes it crisp, which shifts many pixels. The fold is now 45° instead of about 27°. |
+| `flag@14x14` | 36% / 43% | The shipped pole (`x=3.14`), right side (`x=10.79`), and bottom edges sit off `.5` centerlines and blur across pixel columns/rows; snapping all straight strokes to `.5` centerlines makes them crisp. The fold is now 45° instead of about 27°. |
 
 ## Sources
 
