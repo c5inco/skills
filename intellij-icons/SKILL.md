@@ -100,12 +100,13 @@ for modifiers as for base strokes.
 - **`20×20`**: `name@20x20.svg` / `name@20x20_dark.svg` (both IntelliJ `expui`
   and Android Studio `artwork`).
 - **`16×16`**: `name.svg` / `name_dark.svg`.
-- **`14×14`**: In dedicated `14×14` surface folders (gutter, breakpoints,
-  properties — e.g., IntelliJ `expui/gutter/`, `expui/breakpoints/`, and
-  Android Studio `tools/adt/idea/artwork/resources/studio/icons/gutter-icons/`),
-  use `name.svg` / `name_dark.svg` without `@14x14`. Use `name@14x14.svg` /
-  `name@14x14_dark.svg` when a `14×14` variant shares a directory with another
-  size (e.g., `expui/diff/*@14x14.svg` or multi-size icon folders).
+- **`14×14`**: In Android Studio `artwork`
+  (`tools/adt/idea/artwork/resources/studio/icons/`), `14×14` icons always omit
+  `@14x14` (`name.svg` / `name_dark.svg`), even in mixed-size directories. In
+  IntelliJ `expui`, dedicated `14×14` folders (`expui/gutter/`,
+  `expui/breakpoints/`) omit `@14x14`, while mixed-size folders (e.g.,
+  `expui/diff/*@14x14.svg`, and standalone multi-size sets) use
+  `name@14x14.svg` / `name@14x14_dark.svg`.
 - Follow the target directory's convention, and never rename existing icons in a
   way that breaks references or icon mappings.
 
